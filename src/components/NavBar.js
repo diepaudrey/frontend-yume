@@ -20,6 +20,9 @@ const NavigationBar = styled.ul`
     justify-content: space-around;
     align-items: center;
     margin: 0;
+    padding :0;
+
+    font-size: 20px;
 `;
 
 

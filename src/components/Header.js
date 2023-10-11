@@ -10,6 +10,7 @@ export default function Header(){
 };
 
 const HeaderComponent = styled.header`
+    width: 100%;
     display : flex;
     flex-direction: column;
     justify-content: center;
