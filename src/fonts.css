@@ -1,0 +1,32 @@
+@font-face {
+    font-family: 'Bellota';
+    src: url('./assets/fonts/BellotaText-Regular.ttf') format('truetype');
+    font-weight: normal;
+    font-style: normal;
+}
+
+@font-face {
+    font-family: 'Broadway';
+    src: url('./assets/fonts/Broadway_Regular.ttf') format('truetype');
+    font-weight: normal;
+    font-style: normal;
+}
+
+body{
+    font-family: 'Bellota', sans-serif;
+}
+
+h1{
+    font-family: 'Broadway', sans-serif;
+    font-size: 4em;
+}
+
+h2{
+    font-family: 'Broadway', sans-serif;
+    font-size: 3em;
+}
+
+input{
+    font-family: 'Bellota', sans-serif;
+    font-size: 1em;
+}

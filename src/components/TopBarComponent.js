@@ -2,7 +2,7 @@
 import styled from 'styled-components'
 
 export default function TopBar(){
-    return <TopBarContainer><Title>Yume</Title></TopBarContainer>
+    return <TopBarContainer><h1>YUME</h1></TopBarContainer>
 };
 
 
@@ -19,12 +19,6 @@ const TopBarContainer = styled.div`
     align-items: center;
 `
 
-const Title = styled.h1`
-    @import url('https://fonts.googleapis.com/css2?family=Bellota+Text&family=Hind:wght@300;400;500;700&display=swap');
-    margin : 0;
-    font-family: 'Bugaki';
-    font-size: 50px;
-`
 
 
 

@@ -21,8 +21,7 @@ const NavigationBar = styled.ul`
     align-items: center;
     margin: 0;
     padding :0;
-
-    font-size: 20px;
+    font-size: 1.3em;
 `;
 
 
