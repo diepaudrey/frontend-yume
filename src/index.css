@@ -4,6 +4,26 @@ body {
   -moz-osx-font-smoothing: grayscale;
 }
 
+button{
+  border : none;
+  background-color:#FFFBE8 ;
+  border-radius: 10px;
+  color : #99AD8D;
+  box-shadow: 0px 1px 1px 0px #C8CAAA;
+}
+
+button:hover{
+  border : none;
+  background-color:#FFFBE8 ;
+  border-radius: 10px;
+  color : #95756A;
+  box-shadow: 0px 2px 2px 0px #C8CAAA;
+}
+
+a{
+  text-decoration: none;
+}
+
 code {
   font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
     monospace;

@@ -1,9 +1,7 @@
-// import TopBar from './components/TopBarComponent.js';
-// import NavBar from './components/NavBar.js';
+
 import Header from './components/Header.js';
 import styled from 'styled-components'
 import background from './assets/img/Pattern.svg'
-
 import MainSection from './components/MainSection.js';
 
 
