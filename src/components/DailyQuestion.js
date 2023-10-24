@@ -89,6 +89,7 @@ const AnswerContainer = styled(Container)`
     border: none;
     outline : none;
     margin-left : 25px;
+    width : 100%;
   };
   box-shadow: 0px 4px 4px 0px #99AD8D;
   display: flex;
@@ -102,8 +103,8 @@ const AnswerContainer = styled(Container)`
 
   @media screen and (min-width: 768px) and (max-width: 1024px){
     input{
-
       margin-left: 20px;
+      width : 100%;
     };
 
     height : 50px;
@@ -111,7 +112,7 @@ const AnswerContainer = styled(Container)`
 
   @media screen and (max-width : 767px) {
     input{
-
+      width : 100%;
       margin-left: 15px;
     };
     font-size: 0.8em;

@@ -1,16 +1,19 @@
+
 import styled from 'styled-components'
+import {Link} from "react-router-dom"
+
 
 export default function NavBar(){
     return <NavigationBar>
-        <li> <LinkComponent href="/homepage">Homepage</LinkComponent></li>
-        <li> <LinkComponent href="/quizz">Quizz</LinkComponent></li>
-        <li><LinkComponent href="/profile">Profile </LinkComponent></li>
+        <Li><Link className="nav-bar" to={'/'}>Home</Link></Li>
+        <Li><Link className="nav-bar" to={'/quiz'}>Quiz</Link></Li>
+        <Li><Link className="nav-bar" to={'/profile'}>Profile</Link></Li>
     </NavigationBar>
 };
 
+
+
 const NavigationBar = styled.ul`
-    list-style: none;
-    color: white;
     background-color: #C8CAAA;
     height: 8vh;
     width: 30vw;
@@ -34,8 +37,15 @@ const NavigationBar = styled.ul`
     }
 `;
 
-const LinkComponent = styled.a` 
-    color : white;
+
+const Li = styled.li` 
+    :hover{
+        color : #99AD8D;
+    };
+    list-style: none;
+    .nav-bar{
+        color : white;
+    }
 `
 
 
