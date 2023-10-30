@@ -64,8 +64,6 @@ const BottomSection = styled.section`
         display: flex;
         flex-direction: column;
         justify-content: space-around;
-
-
     }
 
     @media screen and (max-width:767px) {
@@ -74,7 +72,7 @@ const BottomSection = styled.section`
 
         display: flex;
         flex-direction: column;
-        justify-content: space-between;
+        justify-content: space-around;
     }
 
 `

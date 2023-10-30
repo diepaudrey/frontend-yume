@@ -11,42 +11,34 @@ export default function DateIdea(props){
 
 const DateIdeaContainer = styled.div`
     height: auto;
-    width: 200px;
+    max-width: fit-content;
+    width: 15vw;
     display: flex;
     flex-direction: column;
     justify-content: center;
     align-items: center;
-    margin: 20px;
+    margin: 10%;
 
     img{
-        width: 150px;
+        width: 80%;
         margin: 0;
     }
 
     p{
-        margin-top : 10px;
+        margin-top : 5%;
         margin-bottom: 0;
     }
 
-    @media screen and (min-width: 768px) and (max-width: 1024px){
-        width: 200px;
-        
-    }
-
-    @media screen and (max-width : 767px) {
-        width: 100px;
-        height: 80px;
-
+    @media screen and (min-width:768px) and (max-width:1024px) {
         img{
-        width: 80px;
-        margin: 0;
+            width: fit-content;
+            margin: 0;
         }
-
-        p{
-        margin-top : 2px;
-        margin-bottom: 0;
-        }
-        
     }
+
+    @media screen and (max-width:767px) {
+        width: 100%;
+    }
+    
 
 `

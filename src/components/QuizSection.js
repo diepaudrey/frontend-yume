@@ -16,17 +16,19 @@ export default function Box(props){
 
 
 const Container = styled.div`
+  max-width: fit-content;
+  max-height: fit-content;
   width: ${props => props.width || 'auto'};
   height: ${props => props.height || 'auto'};
   display : flex;
   flex-direction: column;
 
   @media screen and (min-width: 768px) and (max-width: 1024px){
-    width: 30%;
+    width:80%;
   }
 
   @media screen and (max-width : 767px) {
-    width: 50%;
+    width: 100%;
     height: auto;
   }
 `
@@ -58,6 +60,12 @@ const ContentBox = styled.div`
   justify-content: center;
   align-items: center;
   color : black;
+
+
+  @media screen and (max-width : 767px) {
+    width: 70vw;
+    height: auto;
+  }
 
     
 `
