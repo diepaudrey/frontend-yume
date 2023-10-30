@@ -41,6 +41,7 @@ const NavigationCard = styled.div`
         height: 100px;
         font-size: 0.8em;
         border-radius: 15px;
+        margin: 10px;
     }
 `
 

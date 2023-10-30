@@ -27,6 +27,7 @@ const Application = styled.div`
   height: 100vh;
   background-color: #FFFBE8;
   background-image: url(${background});
+  background-repeat: repeat;
 
   display: flex;
   flex-direction: column;

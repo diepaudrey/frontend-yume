@@ -2,7 +2,9 @@ import styled from 'styled-components'
 import NavCard from './NavCard.js';
 import BoxComponent from './BoxComponent.js';
 import DailyQuestion from './DailyQuestion.js';
+import DateIdea from './DateIdea.js';
 import colors from '../colors.js';
+import sewingImg from "../assets/img/sewing-cuate.png"
 
 
 
@@ -10,7 +12,9 @@ export default function MainSection(){
     return <Section>
         <DailyQuestion/>
         <BottomSection>
-            <BoxComponent title_props={{title_text:'Date Idea'}} box_props={{box_text:'Date idea n°1'}}/>
+            <BoxComponent title_props={{ title_text: 'Date Idea' }} box_props={{}}>
+                <DateIdea text="Date Idea" img={sewingImg} />
+            </BoxComponent>
             <NavCardSection>
                 <NavCard name="Profile" path="/profile" color={colors.green} BgColor={colors.light_green}/>
                 <NavCard name="Quiz" path="/quiz"color={colors.pink} BgColor={colors.light_pink} />
@@ -40,14 +44,16 @@ const Section = styled.section`
     }
 
     @media screen and (max-width:767px) {
-        width: 80vw;
-        height: 80vh;
+        width: 90vw;
+        height: 100vh;
+        justify-content: flex-start;
+        
     }
 `
 
 const BottomSection = styled.section`
     width: 90%;
-    height: 100%;;
+    height: 100%;
     display: flex;
     justify-content: center;
     align-items: center;
@@ -55,19 +61,20 @@ const BottomSection = styled.section`
     @media screen and (min-width:768px) and (max-width:1024px) {
         width: 100%;
         height: 70%;
-
         display: flex;
         flex-direction: column;
-        justify-content: center;
+        justify-content: space-around;
 
 
     }
 
     @media screen and (max-width:767px) {
-        width: 80vw;
-        height: 80vh;
+        width: 80%;
+        height: 80%;
 
-        
+        display: flex;
+        flex-direction: column;
+        justify-content: space-between;
     }
 
 `
@@ -86,7 +93,7 @@ const NavCardSection = styled.section`
     }
 
     @media screen and (max-width:767px) {
-        flex-wrap: wrap;
+        width: 100%;
         margin :0;
     }
 `

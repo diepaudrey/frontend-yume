@@ -52,14 +52,15 @@ const Container = styled.div`
 
 const QuestionContainer = styled(Container)`
   p{
-    margin-top : 15px;
     margin-left : 25px;
-    
+    margin-top: 10px;
+    margin-bottom: 10px;
   };
+  
   margin-top: 5%;
   display: flex;
   flex-direction: column;
-  height : 5vh;
+  height : auto;
   background-color : #99AD8D;
   border-radius: 15px 15px 0px 0px;
   color: white;
@@ -71,16 +72,19 @@ const QuestionContainer = styled(Container)`
     margin-left : 20px;
     
   };
-  height: 45px;
+  height: auto;
 
   }
 
   @media screen and (max-width : 767px) {
+    height: auto;
+    
     p{
     margin-top : 10px;
     margin-left : 15px;
-    };
     font-size: 0.8em;
+    };
+    
     
   }
 `
