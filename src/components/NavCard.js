@@ -14,8 +14,9 @@ export default function NavCard(props){
 
 
 const NavigationCard = styled.div`
-    width: ${props => props.width || '200px'};
-    height: ${props => props.height || '200px'};
+    width: 13vw;
+    height: 13vw;
+
     background-color: ${props => props.backgroundColor || '#99AD8D'};
     border-radius: ${props => props.border || '25px'};
 
@@ -30,15 +31,13 @@ const NavigationCard = styled.div`
     box-shadow: 0px 4px 4px 0px rgba(68, 68, 68, 0.6);
 
     @media screen and (min-width: 768px) and (max-width: 1024px) {
-        width: 175px;
-        height: 175px;
-        
-        
+        width: 20vw;
+        height: 20vw;
     }
 
     @media screen and (max-width: 767px) {
-        width: 100px;
-        height: 100px;
+        width: 25vw;
+        height: 25vw;
         font-size: 0.8em;
         border-radius: 15px;
         margin: 10px;
@@ -59,8 +58,8 @@ const NameCard = styled.div`
         color : ${props => props.color || '#99AD8D'} ;
     }
 
-    width: 200px;
-    height: 50px;
+    width: 13vw;
+    height: 7vh;
     border-radius: 25px 0px 25px 0px;
     background-color:${props => props.backgroundColor || '#FFFFFF'} ;
     border : ${props => '1px solid' + props.color || '1px solid #99AD8D'};
@@ -72,15 +71,14 @@ const NameCard = styled.div`
     position : absolute;
 
     @media screen and (min-width: 768px) and (max-width: 1024px) {
-        width: 175px;
-        height: 40px;
+        width: 20vw;
+        height: 5vw;
         border-radius: 15px 0px 15px 0px;
     }
 
     @media screen and (max-width: 767px) {
-        width: 100px;
-        height: 25px;
-        font-size: 0.8em;
+        width: 25vw;
+        height: 6vw;
         border-radius: 15px 0px 15px 0px;
     }
 `

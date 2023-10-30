@@ -16,12 +16,13 @@ export default function Box(props){
 
 
 const Container = styled.div`
-  max-width: fit-content;
-  max-height: fit-content;
-  width: ${props => props.width || 'auto'};
-  height: ${props => props.height || 'auto'};
+  margin-top : 5%;
+  width: 30vw;
+  height: auto;
   display : flex;
   flex-direction: column;
+  justify-content: center;
+  align-items: center;
 
   @media screen and (min-width: 768px) and (max-width: 1024px){
     width:80%;
@@ -47,11 +48,22 @@ const TitleBox = styled.div`
       margin-left: 5%;
   }
 
+  @media screen and (min-width: 768px) and (max-width: 1024px){
+    width: 70vw;
+    height: auto;
+  }
+
+  @media screen and (max-width : 767px) {
+    width: 70vw;
+    height: auto;
+  }
 
 
 `
 
 const ContentBox = styled.div`
+
+  width: 100%;
   background-color: ${props => props.backgroundColor || 'white'};
   border-radius: ${props => props.borderRadius || '0px 0px 25px 25px'};
   box-shadow: 0px 4px 4px 0px rgba(68, 68, 68, 0.4);
@@ -60,7 +72,12 @@ const ContentBox = styled.div`
   justify-content: center;
   align-items: center;
   color : black;
+  
 
+  @media screen and (min-width: 768px) and (max-width: 1024px){
+    width: 70vw;
+    
+  }
 
   @media screen and (max-width : 767px) {
     width: 70vw;

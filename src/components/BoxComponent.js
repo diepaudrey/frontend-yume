@@ -26,7 +26,7 @@ const Container = styled.div`
   }
 
   @media screen and (max-width : 767px) {
-    width: 50%;
+    width: 50vw;
     height: auto;
   }
 `
@@ -42,9 +42,22 @@ const TitleBox = styled.div`
   align-items: center;
   p{
       color : white;
-      margin-left: 5%;
+      margin-left: 2vw;
   }
 
+  @media screen and (min-width:768px) and (max-width:1024px) {
+    p{
+      margin-left: 3vw;
+    }
+  }
+  
+  @media screen and (max-width:767px) {
+    border-radius   : 17px 17px 0px 0px;
+
+    p{
+      margin : 3vw;
+    }
+  }
 
 
 `
@@ -58,6 +71,10 @@ const ContentBox = styled.div`
   justify-content: center;
   align-items: center;
   color : black;
+
+  @media screen and (max-width:767px) {
+    border-radius   : 0px 0px 17px 17px;
+  }
 
     
 `

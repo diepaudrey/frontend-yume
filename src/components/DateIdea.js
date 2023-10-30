@@ -3,7 +3,7 @@ import styled from "styled-components"
 export default function DateIdea(props){
     const {text, img} = props;
     return <DateIdeaContainer> 
-        <img src={img} alt="Date Idea Image"/>
+        <img src={img} alt="Date Idea"/>
         <p>{text}</p>
     </DateIdeaContainer>
 
@@ -37,7 +37,11 @@ const DateIdeaContainer = styled.div`
     }
 
     @media screen and (max-width:767px) {
-        width: 100%;
+        width: 50%;
+        img{
+            width: fit-content;
+            margin: 0;
+        }
     }
     
 

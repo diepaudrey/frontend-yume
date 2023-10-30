@@ -8,6 +8,7 @@ export default function NavBar(){
         <Li><Link className="nav-bar" to={'/'}>Home</Link></Li>
         <Li><Link className="nav-bar" to={'/quiz'}>Quiz</Link></Li>
         <Li><Link className="nav-bar" to={'/profile'}>Profile</Link></Li>
+        <Li><Link className="nav-bar" to={'/game'}>Games</Link></Li>
     </NavigationBar>
 };
 
