@@ -31,7 +31,6 @@ const DateIdeaContainer = styled.div`
 
     @media screen and (min-width:768px) and (max-width:1024px) {
         img{
-            width: fit-content;
             margin: 0;
         }
     }
@@ -39,7 +38,6 @@ const DateIdeaContainer = styled.div`
     @media screen and (max-width:767px) {
         width: 50%;
         img{
-            width: fit-content;
             margin: 0;
         }
     }

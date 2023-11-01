@@ -17,7 +17,7 @@ export default function NavBar(){
 const NavigationBar = styled.ul`
     background-color: #C8CAAA;
     height: 8vh;
-    width: 30vw;
+    width: 35vw;
     border-radius: 0px 0px 50px 50px;
     display: flex;
     justify-content: space-around;
@@ -29,12 +29,14 @@ const NavigationBar = styled.ul`
     @media screen and (min-width:768px) and (max-width:1023px) {
         height: 5vh;
         width: 50vw;
+        border-radius: 0px 0px 30px 30px;
         
     }
     @media screen and (max-width:767px) {
         height: 5vh;
         width: 70vw;
         font-size: 0.9em;
+        border-radius: 0px 0px 20px 20px;
     }
 `;
 

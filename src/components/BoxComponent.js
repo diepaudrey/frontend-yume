@@ -26,8 +26,9 @@ const Container = styled.div`
   }
 
   @media screen and (max-width : 767px) {
-    width: 50vw;
+    width: 50%;
     height: auto;
+    margin-top: 5%;
   }
 `
 
@@ -53,7 +54,7 @@ const TitleBox = styled.div`
   
   @media screen and (max-width:767px) {
     border-radius   : 17px 17px 0px 0px;
-
+    height: 18%;
     p{
       margin : 3vw;
     }

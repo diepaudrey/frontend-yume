@@ -2,6 +2,7 @@ import styled from "styled-components"
 import colors from '../colors.js'
 import QuizBox from "./QuizBox.js"
 import AnswerQuiz from "./AnswerQuiz.js"
+import SendButton from "./SendButton.js"
 import {useState} from 'react'
 
 
@@ -26,6 +27,7 @@ export default function QuizComponent(){
             <AnswerQuiz answer_id="a2" isChecked={answersState.a2} onChange={handleAnswerChange}/>
             <AnswerQuiz answer_id="a3" isChecked={answersState.a3} onChange={handleAnswerChange}/>
             <AnswerQuiz answer_id="a4" isChecked={answersState.a4} onChange={handleAnswerChange}/>
+            <SendButton/>
         </AnswersContainer>
     </QuizBox>
 }

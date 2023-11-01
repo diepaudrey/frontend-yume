@@ -1,3 +1,5 @@
+import ProfileBox from '../components/ProfileBox';
+
 export default function Profile(){
-    return <h1>Profile !!</h1>
+    return <ProfileBox/>
 }
