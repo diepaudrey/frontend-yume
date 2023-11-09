@@ -4,11 +4,6 @@ import checkmark from '../assets/img/checkmark.svg'
 import {useState} from 'react'
 
 export default function AnswerQuiz(props){
-  // const [isChecked, setIsChecked] = useState(false);
-
-  // const handleCheckboxChange = (event) => {
-  //   setIsChecked(event.target.checked);
-  // }
   const {bg_color, answer_id, isChecked, onChange} = props; 
 
   const handleCheckboxChange = () =>{

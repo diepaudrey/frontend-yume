@@ -1,8 +1,10 @@
 import QuizComponent from "../components/QuizComponent"
-import AnswerQuiz from "../components/AnswerQuiz"
+import Header from '../components/Header.js';
 
 
 export default function Quiz(){
-    return <QuizComponent/>
-
+    return <>
+    <Header/>
+    <QuizComponent/>
+    </>
 }

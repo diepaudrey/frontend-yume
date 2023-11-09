@@ -1,4 +1,6 @@
 
+import Header from '../components/Header.js';
+
 export default function Game(){
-    return <h1>Gameeee</h1>
+    return <Header/>
 }

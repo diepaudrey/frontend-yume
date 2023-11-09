@@ -7,16 +7,17 @@ import Home from './pages/Home.js';
 import Profile from './pages/Profile.js';
 import Quiz from './pages/Quiz.js';
 import Game from './pages/Game.js';
+import Login from './pages/Login.js';
 
 export default function App() {
   return (
     <Application>
-      <Header/>
       <Routes>
         <Route path="/" element={<Home/>}/>
         <Route path="/quiz" element={<Quiz/>}/>
         <Route path="/profile" element={<Profile/>}/>
         <Route path="/game" element={<Game/>}/>
+        <Route path="/signin" element={<Login/>}/>
       </Routes>
     </Application>
   )

@@ -3,13 +3,15 @@ import React, { useState, useEffect } from 'react';
 import fetchDailyQuestion from '../APIRequest'
 
 
+
 export default function DailyQuestion(){
     const handleClick = () => {
       console.log('Bouton cliqué !'); // Afficher un message dans la console lorsque le bouton est cliqué
     };
+    
     const [question, setQuestion] = useState('Daily Question');
     useEffect(() => {
-      // Effectuez la requête API et mettez à jour l'état lorsque la composante est montée.
+      reloadPageDaily();
       fetchDailyQuestion().then((data) => {
         if (data) {
           setQuestion(data);
@@ -35,6 +37,33 @@ export default function DailyQuestion(){
       </Container>
     
 };
+
+// function reloadPage(){
+//   const fiveMinutes = 2 * 60 * 1000; // 5 minutes in milliseconds
+//   console.log('Reloading page in 5 minutes');
+//   setTimeout(() => {
+//     console.log('Reloading now');
+//     window.location.reload(true); // Reload the page
+//   }, fiveMinutes);
+// }
+
+
+function reloadPageDaily(){
+  const now = new Date();
+  const midnight = new Date(); 
+  midnight.setHours(24, 0, 0, 0); 
+
+  const timeUntilMidnight = midnight - now;
+
+  setTimeout(() => {
+    window.location.reload(true); 
+  }, timeUntilMidnight);
+
+}
+
+
+
+
 
 const Container = styled.div`
 
