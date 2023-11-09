@@ -1,5 +1,3 @@
-
-import Header from './components/Header.js';
 import styled from 'styled-components'
 import background from './assets/img/Pattern.svg'
 import { Route, Routes } from 'react-router-dom';
@@ -17,7 +15,7 @@ export default function App() {
         <Route path="/quiz" element={<Quiz/>}/>
         <Route path="/profile" element={<Profile/>}/>
         <Route path="/game" element={<Game/>}/>
-        <Route path="/signin" element={<Login/>}/>
+        <Route path="/login" element={<Login/>}/>
       </Routes>
     </Application>
   )

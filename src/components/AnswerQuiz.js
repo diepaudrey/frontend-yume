@@ -1,7 +1,6 @@
 import styled from 'styled-components'
 import colors from '../colors.js'
 import checkmark from '../assets/img/checkmark.svg'
-import {useState} from 'react'
 
 export default function AnswerQuiz(props){
   const {bg_color, answer_id, isChecked, onChange} = props; 

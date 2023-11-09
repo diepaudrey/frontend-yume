@@ -20,7 +20,7 @@ export default function LoginBox(){
   }
     return <Container>
     <h1>YUME</h1>
-    <TitleBox> <h2>About Yourself</h2> </TitleBox>
+    <TitleBox> <h2>{action}</h2> </TitleBox>
     <ContentBox>
       <Fields>
          {isLogin ? (

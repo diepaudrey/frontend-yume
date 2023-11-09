@@ -1,6 +1,6 @@
 import styled from 'styled-components'
 import colors from '../colors.js'
-import React, { useState, useEffect } from 'react';
+import React, { useState} from 'react';
 
 export default function FieldLogin(props){
     const {text, type, className} = props;

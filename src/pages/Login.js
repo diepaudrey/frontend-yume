@@ -24,7 +24,7 @@ const Container = styled.section`
 
 const ImgComp = styled.div`
     width: 50%;
-    height: 100%;
+    height: 80%;
     background-image: url(${signInIllustration});
     background-size: contain;
     background-repeat: no-repeat;
