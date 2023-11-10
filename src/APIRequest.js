@@ -1,19 +1,3 @@
-// export default async function fetchDailyQuestion(){
-//     try {
-//         let randomIndex = 0;
-//         const response = await fetch('http://localhost:3000/daily_question');
-//         if(!response.ok){
-//             throw new Error('Failed to fetch daily question');
-//         }
-//         const data = await response.json();
-//         const dataObject = data[randomIndex];
-//         return dataObject.question;
-//     }
-//     catch(err){
-//         console.error('Error API request : ',err);
-//         return null;
-//     }
-// }
 
 export default async function fetchDailyQuestion(){
     

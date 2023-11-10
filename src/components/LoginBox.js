@@ -3,7 +3,7 @@ import colors from '../colors.js'
 import FieldLogin from './FieldLogin.js'
 import SendButton from './SendButton.js'
 import {useState} from 'react'
-import Validation from './LoginValidation'
+import createUser from '../APICreateUserRequest.js'
 
 
 export default function LoginBox(){
@@ -77,8 +77,18 @@ export default function LoginBox(){
   }
 
   const handleSignupSubmit = (event) => {
-    console.log(signUpFirstName, signUpLastName, signUpEmail, signUpPassword);
     event.preventDefault();
+    console.log(signUpFirstName, signUpLastName, signUpEmail, signUpPassword);
+
+    const userInformation = {
+      last_name: signUpLastName,
+      first_name: signUpFirstName,
+      email: signUpEmail,
+      password: signUpPassword,
+    };
+    console.log("before creating user", userInformation.last_name);
+    createUser(userInformation);
+    console.log("after creating user")
     console.log("signup submit");
   }
 
