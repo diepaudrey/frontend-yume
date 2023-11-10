@@ -1,13 +1,9 @@
 import styled from 'styled-components'
 
 export default function SendButton(props){
-    const {text = "Send"} = props;
-    
-    const handleClick = () => {
-        console.log('Bouton cliqué !'); // Afficher un message dans la console lorsque le bouton est cliqué
-    };
+    const {text = "Send", onSubmit} = props;
 
-    return <Button type="submit" onClick={handleClick}>{text}</Button>
+    return <Button type="submit" onClick={onSubmit}>{text}</Button>
 }
 
 

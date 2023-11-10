@@ -3,52 +3,120 @@ import colors from '../colors.js'
 import FieldLogin from './FieldLogin.js'
 import SendButton from './SendButton.js'
 import {useState} from 'react'
+import Validation from './LoginValidation'
 
 
 export default function LoginBox(){
-  const [action, setAction] = useState("Sign up");
+  const [text, setText] = useState("Sign up");
   const [isLogin, setIsLogin] = useState(false);
 
   const handleClick = () =>{
     setIsLogin(!isLogin);
     if(isLogin){
-      setAction("Log in");
+      setText("Log in");
     }
     else{
-      setAction("Sign Up");
+      setText("Sign Up");
     }
   }
+
+  // const [loginFields, setLoginFields] = useState({
+  //   email : '',
+  //   password : '',
+  // });
+
+  // const handleLoginInputChange = (event) => {
+  //   const {name, value} = event.target;
+  //   setLoginFields((prevFields) => ({...prevFields, [name]:value}));
+  //   console.log(loginFields.email, loginFields.password);
+  // }
+
+
+
+  /*LOGIN*/ 
+  const [loginEmail, setLoginEmail] = useState();
+  const [loginPassword, setLoginPassword] = useState();
+
+  const handleEmailInputChange = (event) => {
+    setLoginEmail(event.target.value);
+  };
+
+  const handlePasswordInputChange = (event) => {
+    setLoginPassword(event.target.value);
+  }
+
+  const handleLoginSubmit = (event) => {
+    console.log(loginEmail, loginPassword);
+    event.preventDefault();
+    console.log("login submit")
+  }
+
+  /*SIGN UP */
+  const [signUpFirstName, setSignUpFirstName] = useState();
+  const [signUpLastName, setSignUpLastName] = useState();
+  const [signUpEmail, setSignUpEmail] = useState();
+  const [signUpPassword, setSignUpPassword] = useState();
+
+  
+  const handleSignUpFirstNameInputChange = (event) => {
+    setSignUpFirstName(event.target.value);
+
+  };
+
+  const handleSignUpLastNameInputChange = (event) => {
+    setSignUpLastName(event.target.value);
+
+  }
+
+  const handleSignUpEmailInputChange = (event) => {
+    setSignUpEmail(event.target.value);
+  };
+
+  const handleSignUpPasswordInputChange = (event) => {
+    setSignUpPassword(event.target.value);
+  }
+
+  const handleSignupSubmit = (event) => {
+    console.log(signUpFirstName, signUpLastName, signUpEmail, signUpPassword);
+    event.preventDefault();
+    console.log("signup submit");
+  }
+
+
+
     return <Container>
     <h1>YUME</h1>
-    <TitleBox> <h2>{action}</h2> </TitleBox>
+    <TitleBox> <h2>{text}</h2> </TitleBox>
     <ContentBox>
-      <Fields>
-         {isLogin ? (
-          <>
-        <FieldLogin text="First Name" type="text" className="first-name"></FieldLogin>
-        <FieldLogin text="Last Name" type="text" className="last-name"></FieldLogin>
-        <FieldLogin text="Email" type="email" className="email"></FieldLogin>
-        <FieldLogin text="Password" type="password" className="password"></FieldLogin>
-          </>)
-        : <>
-        <FieldLogin text="Email" type="email" className="signup-email"></FieldLogin>
-        <FieldLogin text="Password" type="password" className="signup-password"></FieldLogin></>
+        {isLogin ? (
+        <Fields id="signup-form">
+        <FieldLogin text="First Name" type="text" className="first-name" value={signUpFirstName} handleInputChange={handleSignUpFirstNameInputChange}></FieldLogin>
+        <FieldLogin text="Last Name" type="text" className="last-name" value={signUpLastName} handleInputChange={handleSignUpLastNameInputChange}></FieldLogin>
+        <FieldLogin text="Email" type="email" className="email" value={signUpEmail} handleInputChange={handleSignUpEmailInputChange}></FieldLogin>
+        <FieldLogin text="Password" type="password" className="password" value={signUpPassword} handleInputChange={handleSignUpPasswordInputChange}></FieldLogin>
+          </Fields>)
+        : <Fields id="login-form">
+        <FieldLogin text="Email" type="email" className="signup-email" value={loginEmail} handleInputChange={handleEmailInputChange}></FieldLogin>
+        <FieldLogin text="Password" type="password" className="signup-password" value={loginPassword} handleInputChange={handlePasswordInputChange}></FieldLogin>
+        </Fields>
+        
         }
         
-      </Fields>
-
-      <Submit>{isLogin ? (<>
-    <LoginSection>
-      <p>Already a member ?</p>
-      <p className="login" onClick={()=>{handleClick()}}>Log in </p>
-    </LoginSection>
-    <SendButton text={action}/></>)
-    :
-    (<><SignupSection>
-      <p>Want to create an account ?</p>
-      <p className="signup" onClick={()=>{handleClick()}}>Sign up </p>
-    </SignupSection>
-    <SendButton text={action}/></>)
+    <Submit>
+      {isLogin ? (<>
+        <LoginSection>
+          <p>Already a member ?</p>
+          <p className="login" onClick={()=>{handleClick()}}>Log in </p>
+        </LoginSection>
+        <SendButton text={text} onSubmit={handleSignupSubmit} form="signup-form"/>
+      </>)
+      :(<>
+        <SignupSection>
+          <p>Want to create an account ?</p>
+          <p className="signup" onClick={()=>{handleClick()}}>Sign up </p>
+        </SignupSection>
+        <SendButton text={text} onSubmit={handleLoginSubmit} form="login-form"/>
+      </>)
   }
   </Submit>
 
@@ -131,7 +199,7 @@ const ContentBox = styled.div`
     }
 `
 
-const Fields = styled.div`
+const Fields = styled.form`
   height: 90%;
   display : grid;
   grid-template-rows: repeat(4, 1fr);
