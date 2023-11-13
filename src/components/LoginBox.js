@@ -4,6 +4,8 @@ import FieldLogin from './FieldLogin.js'
 import SendButton from './SendButton.js'
 import {useState} from 'react'
 import createUser from '../APICreateUserRequest.js'
+import checkLogin from '../APILoginRequest.js'
+import { useNavigate } from 'react-router-dom';
 
 
 export default function LoginBox(){
@@ -20,22 +22,11 @@ export default function LoginBox(){
     }
   }
 
-  // const [loginFields, setLoginFields] = useState({
-  //   email : '',
-  //   password : '',
-  // });
-
-  // const handleLoginInputChange = (event) => {
-  //   const {name, value} = event.target;
-  //   setLoginFields((prevFields) => ({...prevFields, [name]:value}));
-  //   console.log(loginFields.email, loginFields.password);
-  // }
-
-
-
   /*LOGIN*/ 
   const [loginEmail, setLoginEmail] = useState();
   const [loginPassword, setLoginPassword] = useState();
+  const [isLoggedIn, setIsLoggedIn] = useState(false);
+  const navigate = useNavigate();
 
   const handleEmailInputChange = (event) => {
     setLoginEmail(event.target.value);
@@ -46,10 +37,23 @@ export default function LoginBox(){
   }
 
   const handleLoginSubmit = (event) => {
-    console.log(loginEmail, loginPassword);
     event.preventDefault();
-    console.log("login submit")
+    
+    const userLoginInformation = {
+      email : loginEmail,
+      password : loginPassword
+    }
+    if(checkLogin(userLoginInformation)){
+      setIsLoggedIn(true);
+      console.log("logged in", isLoggedIn);
+      navigate('/')
+    }
+    else{
+      console.log("user not found");
+    }
+    
   }
+
 
   /*SIGN UP */
   const [signUpFirstName, setSignUpFirstName] = useState();
@@ -86,14 +90,8 @@ export default function LoginBox(){
       email: signUpEmail,
       password: signUpPassword,
     };
-    console.log("before creating user", userInformation.last_name);
     createUser(userInformation);
-    console.log("after creating user")
-    console.log("signup submit");
   }
-
-
-
     return <Container>
     <h1>YUME</h1>
     <TitleBox> <h2>{text}</h2> </TitleBox>
@@ -128,8 +126,7 @@ export default function LoginBox(){
         <SendButton text={text} onSubmit={handleLoginSubmit} form="login-form"/>
       </>)
   }
-  </Submit>
-
+      </Submit>
     </ContentBox>
   </Container>
 }

@@ -8,8 +8,12 @@ import sewingImg from "../assets/img/sewing-cuate.png"
 
 
 
-export default function MainSection(){
+export default function MainSection(props){
+    const {user_name} = props;
     return <Section>
+        <UserContainer>
+                <h3>Welcome back {user_name} ! </h3>
+            </UserContainer>
         <DailyQuestion/>
         <BottomSection>
             <BoxComponent title_props={{ title_text: 'Date Idea' }} box_props={{}}>
@@ -36,6 +40,7 @@ const Section = styled.section`
     flex-direction: column;
     align-items: center;
     justify-content: space-between;
+    color : ${colors.light_green};
 
     @media screen and (min-width:768px) and (max-width:1024px) {
         width: 90vw;
@@ -94,4 +99,8 @@ const NavCardSection = styled.section`
         width: 100%;
         margin :0;
     }
+`
+
+const UserContainer = styled.div`
+
 `
