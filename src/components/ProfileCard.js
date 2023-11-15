@@ -6,7 +6,7 @@ export default function ProfileCard(props){
     const {img} = props;
     return <Card> 
         <TopInformation> 
-            <img src={img} alt="Your Picture"/>
+            <img src={img} alt="Yourself"/>
             <ProfileInfo>
                 <InformationComponent infoType="Name" content="Anna"/> {/*{Dynamic Profile to do*/}
                 <InformationComponent infoType="Age" content="24"/>

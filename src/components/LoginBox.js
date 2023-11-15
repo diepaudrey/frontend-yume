@@ -2,15 +2,26 @@ import styled from 'styled-components'
 import colors from '../colors.js'
 import FieldLogin from './FieldLogin.js'
 import SendButton from './SendButton.js'
-import {useState} from 'react'
-import createUser from '../APICreateUserRequest.js'
-import checkLogin from '../APILoginRequest.js'
+import {useState, useEffect, setRole} from 'react'
 import { useNavigate } from 'react-router-dom';
+
+import AccountService from '../AccountService.js'
+
 
 
 export default function LoginBox(){
-  const [text, setText] = useState("Sign up");
+  const [text, setText] = useState('Log in');
   const [isLogin, setIsLogin] = useState(false);
+
+  /* Session & Cookies */
+  //Axios.defaults.withCredentials = true;
+  // useEffect(() => {
+  //   Axios.get('http://localhost:3000/login').then((response) => {
+  //     if (response.data.loggedIn === true) {
+  //       setRole(response.data.user[0].role);
+  //     }
+  //   });
+  // }, []);
 
   const handleClick = () =>{
     setIsLogin(!isLogin);
@@ -25,7 +36,7 @@ export default function LoginBox(){
   /*LOGIN*/ 
   const [loginEmail, setLoginEmail] = useState();
   const [loginPassword, setLoginPassword] = useState();
-  const [isLoggedIn, setIsLoggedIn] = useState(false);
+  //const [isLoggedIn, setIsLoggedIn] = useState(false);
   const navigate = useNavigate();
 
   const handleEmailInputChange = (event) => {
@@ -36,20 +47,31 @@ export default function LoginBox(){
     setLoginPassword(event.target.value);
   }
 
-  const handleLoginSubmit = (event) => {
+  const handleLoginSubmit = async (event) => {
     event.preventDefault();
     
     const userLoginInformation = {
       email : loginEmail,
       password : loginPassword
     }
-    if(checkLogin(userLoginInformation)){
-      setIsLoggedIn(true);
-      console.log("logged in", isLoggedIn);
-      navigate('/')
-    }
-    else{
-      console.log("user not found");
+    // if(AccountService.checkUserLogin(userLoginInformation)){
+    //   // setIsLoggedIn(true);
+    //   console.log("Front : Logged in");
+    //   navigate('/');
+    // }
+
+    try{
+      const isLoggedIn = await AccountService.checkUserLogin(userLoginInformation);
+      if(isLoggedIn){
+        console.log("Front : Logged in");
+        navigate('/');
+      }
+      else{
+        console.log("Front : User not found or login failed");
+      }
+
+    }catch(error){
+      console.error("Front : Error during login", error);
     }
     
   }
@@ -90,7 +112,7 @@ export default function LoginBox(){
       email: signUpEmail,
       password: signUpPassword,
     };
-    createUser(userInformation);
+    AccountService.createUser(userInformation);
   }
     return <Container>
     <h1>YUME</h1>
