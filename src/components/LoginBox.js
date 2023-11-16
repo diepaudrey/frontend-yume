@@ -6,149 +6,25 @@ import {useState, useEffect, setRole} from 'react'
 import { useNavigate } from 'react-router-dom';
 
 import AccountService from '../AccountService.js'
+import LoginForm from './LoginForm.js'
+import SignUpForm from './SignUpForm.js'
 
 
 
 export default function LoginBox(){
   const [text, setText] = useState('Log in');
-  const [isLogin, setIsLogin] = useState(false);
-
-  /* Session & Cookies */
-  //Axios.defaults.withCredentials = true;
-  // useEffect(() => {
-  //   Axios.get('http://localhost:3000/login').then((response) => {
-  //     if (response.data.loggedIn === true) {
-  //       setRole(response.data.user[0].role);
-  //     }
-  //   });
-  // }, []);
+  const [isSignUpPage, setIsSignUpPage] = useState(false);
 
   const handleClick = () =>{
-    setIsLogin(!isLogin);
-    if(isLogin){
-      setText("Log in");
-    }
-    else{
-      setText("Sign Up");
-    }
+    setIsSignUpPage(!isSignUpPage);
+    setText(isSignUpPage ? 'Log in' : 'Sign Up');
   }
 
-  /*LOGIN*/ 
-  const [loginEmail, setLoginEmail] = useState();
-  const [loginPassword, setLoginPassword] = useState();
-  //const [isLoggedIn, setIsLoggedIn] = useState(false);
-  const navigate = useNavigate();
-
-  const handleEmailInputChange = (event) => {
-    setLoginEmail(event.target.value);
-  };
-
-  const handlePasswordInputChange = (event) => {
-    setLoginPassword(event.target.value);
-  }
-
-  const handleLoginSubmit = async (event) => {
-    event.preventDefault();
-    
-    const userLoginInformation = {
-      email : loginEmail,
-      password : loginPassword
-    }
-    // if(AccountService.checkUserLogin(userLoginInformation)){
-    //   // setIsLoggedIn(true);
-    //   console.log("Front : Logged in");
-    //   navigate('/');
-    // }
-
-    try{
-      const isLoggedIn = await AccountService.checkUserLogin(userLoginInformation);
-      if(isLoggedIn){
-        console.log("Front : Logged in");
-        navigate('/');
-      }
-      else{
-        console.log("Front : User not found or login failed");
-      }
-
-    }catch(error){
-      console.error("Front : Error during login", error);
-    }
-    
-  }
-
-
-  /*SIGN UP */
-  const [signUpFirstName, setSignUpFirstName] = useState();
-  const [signUpLastName, setSignUpLastName] = useState();
-  const [signUpEmail, setSignUpEmail] = useState();
-  const [signUpPassword, setSignUpPassword] = useState();
-
-  
-  const handleSignUpFirstNameInputChange = (event) => {
-    setSignUpFirstName(event.target.value);
-
-  };
-
-  const handleSignUpLastNameInputChange = (event) => {
-    setSignUpLastName(event.target.value);
-
-  }
-
-  const handleSignUpEmailInputChange = (event) => {
-    setSignUpEmail(event.target.value);
-  };
-
-  const handleSignUpPasswordInputChange = (event) => {
-    setSignUpPassword(event.target.value);
-  }
-
-  const handleSignupSubmit = (event) => {
-    event.preventDefault();
-    console.log(signUpFirstName, signUpLastName, signUpEmail, signUpPassword);
-
-    const userInformation = {
-      last_name: signUpLastName,
-      first_name: signUpFirstName,
-      email: signUpEmail,
-      password: signUpPassword,
-    };
-    AccountService.createUser(userInformation);
-  }
     return <Container>
     <h1>YUME</h1>
     <TitleBox> <h2>{text}</h2> </TitleBox>
     <ContentBox>
-        {isLogin ? (
-        <Fields id="signup-form">
-        <FieldLogin text="First Name" type="text" className="first-name" value={signUpFirstName} handleInputChange={handleSignUpFirstNameInputChange}></FieldLogin>
-        <FieldLogin text="Last Name" type="text" className="last-name" value={signUpLastName} handleInputChange={handleSignUpLastNameInputChange}></FieldLogin>
-        <FieldLogin text="Email" type="email" className="email" value={signUpEmail} handleInputChange={handleSignUpEmailInputChange}></FieldLogin>
-        <FieldLogin text="Password" type="password" className="password" value={signUpPassword} handleInputChange={handleSignUpPasswordInputChange}></FieldLogin>
-          </Fields>)
-        : <Fields id="login-form">
-        <FieldLogin text="Email" type="email" className="signup-email" value={loginEmail} handleInputChange={handleEmailInputChange}></FieldLogin>
-        <FieldLogin text="Password" type="password" className="signup-password" value={loginPassword} handleInputChange={handlePasswordInputChange}></FieldLogin>
-        </Fields>
-        
-        }
-        
-    <Submit>
-      {isLogin ? (<>
-        <LoginSection>
-          <p>Already a member ?</p>
-          <p className="login" onClick={()=>{handleClick()}}>Log in </p>
-        </LoginSection>
-        <SendButton text={text} onSubmit={handleSignupSubmit} form="signup-form"/>
-      </>)
-      :(<>
-        <SignupSection>
-          <p>Want to create an account ?</p>
-          <p className="signup" onClick={()=>{handleClick()}}>Sign up </p>
-        </SignupSection>
-        <SendButton text={text} onSubmit={handleLoginSubmit} form="login-form"/>
-      </>)
-  }
-      </Submit>
+        {isSignUpPage ? <SignUpForm handleClick={handleClick} buttonText={text}/> : <LoginForm handleClick={handleClick} text={text}/>}
     </ContentBox>
   </Container>
 }
