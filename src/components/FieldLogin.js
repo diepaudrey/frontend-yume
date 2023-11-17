@@ -2,7 +2,7 @@ import styled from 'styled-components'
 import colors from '../colors.js'
 
 export default function FieldLogin(props){
-    const {text, type, className, id, name, handleInputChange, inputValue} = props;
+    const {text, type, className, id, name, handleInputChange, inputValue, displayError, errorMessage} = props;
 
     // const [inputValue, setInputValue] = useState('');
     // const handleInputChange = (event) => {
@@ -16,7 +16,8 @@ export default function FieldLogin(props){
 
 
     return <Container className={className}> 
-      <p>{text}</p>
+      <p className='title'>{text}</p>
+      {displayError ? <ErrorMessage>{errorMessage}</ErrorMessage> : null}
       <AnswerContainer>
           <input type={type} id={id} placeholder="type here..." value={inputValue} onChange={handleInputChange} name={name}/>
     </AnswerContainer>
@@ -30,8 +31,9 @@ const Container = styled.div`
   justify-content : center;
   width: 15vw;
   padding-left: 10%;
+  padding-bottom: 5%;
 
-  p{
+  .title{
       margin : 0;
       margin-bottom: 5px;
       color : ${colors.green}
@@ -78,5 +80,14 @@ const AnswerContainer = styled.div`
     font-size: 0.8em;
     
   };
+
+`
+
+const ErrorMessage = styled.p`
+    color : ${colors.pink};
+    display : flex;
+    align-items: center;
+    font-size : 0.7em;
+    margin : 0;
 
 `

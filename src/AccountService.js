@@ -21,29 +21,38 @@ const AccountService = {
             }
     },
     
-    isFormValid : function isFormValid(inputValues){
+    isFormValid: function isFormValid(inputValues) {
       let errors = {};
-      if(!inputValues.first_name.trim()){
+      let errorFlags = {};
+    
+      if (!inputValues.first_name.trim()) {
         errors.firstName = "First name is required";
+        errorFlags.firstName = true;
       }
-      if(!inputValues.last_name.trim()){
+    
+      if (!inputValues.last_name.trim()) {
         errors.lastName = "Last name is required";
+        errorFlags.lastName = true;
       }
-      if(!inputValues.email.trim()){
+    
+      if (!inputValues.email.trim()) {
         errors.email = "Email is required";
-      }
-      else if(inputValues.email.trim().length < 5){
+        errorFlags.email = true;
+      } else if (inputValues.email.trim().length < 5) {
         errors.email = "Email is too short";
+        errorFlags.email = true;
       }
-      if(!inputValues.password.trim()){
-        errors.password= "Password is required";
-      }
-      else if(inputValues.password.trim().length < 5){
+    
+      if (!inputValues.password.trim()) {
+        errors.password = "Password is required";
+        errorFlags.password = true;
+      } else if (inputValues.password.trim().length < 5) {
         errors.password = "Password is too short";
+        errorFlags.password = true;
       }
-      return errors;
-
-  },
+    
+      return [errors, errorFlags];
+    },
 
   setUserInputs : function setUserInputs(inputValues){
     let result = {};

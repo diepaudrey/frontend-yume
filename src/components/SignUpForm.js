@@ -9,76 +9,44 @@ import AccountService from '../AccountService.js'
 
 export default function SignUpForm(props){
     const {handleClick, buttonText} = props;
-    // const [signUpFirstName, setSignUpFirstName] = useState('');
-    // const [signUpLastName, setSignUpLastName] = useState('');
-    // const [signUpEmail, setSignUpEmail] = useState('');
-    // const [signUpPassword, setSignUpPassword] = useState('');
     const [errors, setErrors] = useState({base : "test"});
+    const [errorsFlags, setErrorsFlags] = useState({base : "test"});
     const [submitted, setSubmitted] = useState();
 
     const [userInputs, setUserInputs] = useState({
-        last_name: '',
         first_name: '',
+        last_name: '',
         email: '',
         password: '',
     })
 
+
     const handleChange = (event) => {
         const {name, value} = event.target
-        console.log("name : ", name, "value : ", value)
         setUserInputs((prevInputs)=>({
             ...prevInputs, 
             [name]:value,
         }))
     };
 
-  
-    // const handleSignUpFirstNameInputChange = (event) => {
-    //     setSignUpFirstName(event.target.value);
-
-    // };
-
-    // const handleSignUpLastNameInputChange = (event) => {
-    //     setSignUpLastName(event.target.value);
-
-    // }
-
-    // const handleSignUpEmailInputChange = (event) => {
-    //     setSignUpEmail(event.target.value);
-    // };
-
-    // const handleSignUpPasswordInputChange = (event) => {
-    //     setSignUpPassword(event.target.value);
-    // }
-
     const handleSignupSubmit = async (event) => {
         event.preventDefault();
-        //console.log(signUpFirstName, signUpLastName, signUpEmail, signUpPassword); //a supprimer
-        // userInputs = {
-        // last_name: signUpLastName,
-        // first_name: signUpFirstName,
-        // email: signUpEmail,
-        // password: signUpPassword,
-        // };
         console.log("userinfo :" , userInputs)
-        setErrors(AccountService.isFormValid(userInputs));
-        // if(Object.keys(errors).length > 0){
-        //     console.log("Y'a des erreurs");
-        //     setSubmitted(false);
-        // }
-        // else{
-        //     console.log("Pas d'erreurs");
-        //     //AccountService.createUser(userInputs);
-        //     setSubmitted(true);
-        // }
+        // const {err, errFlags} = AccountService.isFormValid(userInputs)
+        const err = AccountService.isFormValid(userInputs)[0];
+        const errFlags = AccountService.isFormValid(userInputs)[1]
+        setErrors(err);
+        setErrorsFlags(errFlags);
+
+        console.log("erreurs : ", errFlags);
+
     }
 
     useEffect(()=>{
-        //console.log("Les erreurs : ", errors, " nombre d'erreur :",  Object.keys(errors).length);
-        //console.log("userInputs : ", userInputs);
         if(Object.keys(errors).length > 0){
             console.log("Y'a des erreurs");
             setSubmitted(false);
+            console.log(errorsFlags.lastName)
         }
         else{
             console.log("Pas d'erreur");
@@ -90,15 +58,10 @@ export default function SignUpForm(props){
     return <>
     {Object.keys(errors).length === 0 && submitted ? <SubmitMessage>You have successfully created a new account</SubmitMessage> : null}
     <Fields id="signup-form">
-        {/* <FieldLogin text="First Name" type="text" className="first-name" value={signUpFirstName} handleInputChange={handleSignUpFirstNameInputChange}></FieldLogin>
-        <FieldLogin text="Last Name" type="text" className="last-name" value={signUpLastName} handleInputChange={handleSignUpLastNameInputChange}></FieldLogin>
-        <FieldLogin text="Email" type="email" className="email" value={signUpEmail} handleInputChange={handleSignUpEmailInputChange}></FieldLogin>
-        <FieldLogin text="Password" type="password" className="password" value={signUpPassword} handleInputChange={handleSignUpPasswordInputChange}></FieldLogin> */}
-
-        <FieldLogin text="First Name" type="text" className="first-name" name="first_name" value={userInputs.first_name} handleInputChange={handleChange}></FieldLogin>
-        <FieldLogin text="Last Name" type="text" className="last-name" name="last_name" value={userInputs.last_name} handleInputChange={handleChange}></FieldLogin>
-        <FieldLogin text="Email" type="email" className="email" name="email" value={userInputs.email} handleInputChange={handleChange}></FieldLogin>
-        <FieldLogin text="Password" type="password" className="password" name="password" value={userInputs.password} handleInputChange={handleChange}></FieldLogin>
+        <FieldLogin text="First Name" type="text" className="first-name" name="first_name" value={userInputs.first_name} handleInputChange={handleChange} errorMessage={errors.firstName} displayError={errorsFlags.firstName}></FieldLogin>
+        <FieldLogin text="Last Name" type="text" className="last-name" name="last_name" value={userInputs.last_name} handleInputChange={handleChange} errorMessage={errors.lastName} displayError={errorsFlags.lastName}></FieldLogin>
+        <FieldLogin text="Email" type="email" className="email" name="email" value={userInputs.email} handleInputChange={handleChange} errorMessage={errors.email} displayError={errorsFlags.email}></FieldLogin>
+        <FieldLogin text="Password" type="password" className="password" name="password" value={userInputs.password} handleInputChange={handleChange} errorMessage={errors.password} displayError={errorsFlags.password}></FieldLogin>
     </Fields>
     <Submit>
         <LoginSection>
@@ -144,5 +107,7 @@ const Submit = styled.div`
 `
 
 const SubmitMessage = styled.h3`
+    margin-left: 5%;
     color : ${colors.green};
 `
+
