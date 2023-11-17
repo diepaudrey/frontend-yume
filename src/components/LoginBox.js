@@ -1,11 +1,8 @@
 import styled from 'styled-components'
 import colors from '../colors.js'
-import FieldLogin from './FieldLogin.js'
-import SendButton from './SendButton.js'
-import {useState, useEffect, setRole} from 'react'
-import { useNavigate } from 'react-router-dom';
 
-import AccountService from '../AccountService.js'
+import {useState} from 'react'
+
 import LoginForm from './LoginForm.js'
 import SignUpForm from './SignUpForm.js'
 
@@ -102,43 +99,5 @@ const ContentBox = styled.div`
     @media screen and (max-width:767px) {
         border-radius   : 0px 0px 17px 17px;
     }
-`
-
-const Fields = styled.form`
-  height: 90%;
-  display : grid;
-  grid-template-rows: repeat(4, 1fr);
-  grid-template-columns: repeat(auto-fit, minmax(200px,1fr));
-  grid-gap: 1em, 1em;
-  padding-top: 5%;
-`
-
-const LoginSection = styled.div`
-  display: flex;
-  flex-direction: row;
-`
-
-const SignupSection = styled.div`
-  display: flex;
-  flex-direction: row;
-`
-const Submit = styled.div`
-
-  width: 100%;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  padding-bottom: 2%;
-  p{
-    margin : 0;
-    font-size: 0.8em;
-  }
-
-  .link{
-    color : ${colors.green};
-    text-decoration : underline;
-  }
-
 `
 

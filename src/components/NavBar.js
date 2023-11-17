@@ -5,7 +5,7 @@ import {Link} from "react-router-dom"
 
 export default function NavBar(){
     return <NavigationBar>
-        <Li><Link className="nav-bar" to={'/'}>Home</Link></Li>
+        <Li><Link className="nav-bar" to={'/home'}>Home</Link></Li>
         <Li><Link className="nav-bar" to={'/quiz'}>Quiz</Link></Li>
         <Li><Link className="nav-bar" to={'/profile'}>Profile</Link></Li>
         <Li><Link className="nav-bar" to={'/game'}>Games</Link></Li>

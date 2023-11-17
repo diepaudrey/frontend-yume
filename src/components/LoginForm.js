@@ -34,7 +34,7 @@ export default function LoginForm(props){
       const isLoggedIn = await AccountService.checkUserLogin(userLoginInformation);
       if(isLoggedIn){
         console.log("Front : Logged in");
-        navigate('/');
+        navigate('/home');
       }
       else{
         console.log("Front : User not found or login failed");

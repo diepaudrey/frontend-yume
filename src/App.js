@@ -11,7 +11,8 @@ export default function App() {
   return (
     <Application>
       <Routes>
-        <Route path="/" element={<Home/>}/>
+        <Route path="/" element={<Login/>}/>
+        <Route path="/home" element={<Home/>}/>
         <Route path="/quiz" element={<Quiz/>}/>
         <Route path="/profile" element={<Profile/>}/>
         <Route path="/game" element={<Game/>}/>

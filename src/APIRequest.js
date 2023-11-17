@@ -2,7 +2,7 @@
 export default async function fetchDailyQuestion(){
     
     try {
-        const response = await fetch('http://localhost:3000/daily_question');
+        const response = await fetch('http://localhost:3001/daily_question');
         if(!response.ok){
             throw new Error('Failed to fetch daily question');
         }
