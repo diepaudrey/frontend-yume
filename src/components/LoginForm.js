@@ -12,33 +12,35 @@ import AccountService from '../AccountService.js'
 
 export default function LoginForm(props){
   const {handleClick, text} = props
-  const [loginEmail, setLoginEmail] = useState();
-  const [loginPassword, setLoginPassword] = useState();
+  const [userInputs, setUserInputs] = useState({
+    email : '',
+    password : ''
+  });
+
+  const [error, setError] = useState(false);
+
   const navigate = useNavigate();
 
-  const handleEmailInputChange = (event) => {
-    setLoginEmail(event.target.value);
-  };
-
-  const handlePasswordInputChange = (event) => {
-    setLoginPassword(event.target.value);
+  const handleInputChange = (event) => {
+    setUserInputs((prevInputs)=>({
+      ...prevInputs, 
+      [event.target.name] : event.target.value
+    }));
   }
 
   const handleLoginSubmit = async (event) => {
-    event.preventDefault(); 
-    const userLoginInformation = {
-      email : loginEmail,
-      password : loginPassword
-    }
+    event.preventDefault();
+    console.log("userinfo LOGIN:" , userInputs)
     try{
-      const isLoggedIn = await AccountService.checkUserLogin(userLoginInformation);
+      const isLoggedIn = await AccountService.checkUserLogin(userInputs);
       if(isLoggedIn){
         console.log("Front : Logged in");
         navigate('/home');
+        setError(false)
       }
       else{
         console.log("Front : User not found or login failed");
-
+        setError(true)
       }
 
     }catch(error){
@@ -48,9 +50,10 @@ export default function LoginForm(props){
   }
 
     return <>
-    <Fields id="login-form">
-        <FieldLogin text="Email" type="email" className="signup-email" value={loginEmail} handleInputChange={handleEmailInputChange}></FieldLogin>
-        <FieldLogin text="Password" type="password" className="signup-password" value={loginPassword} handleInputChange={handlePasswordInputChange}></FieldLogin>
+    {error ? <ErrorMessage>Wrong email/password combination</ErrorMessage> : null}
+    <Fields>
+        <FieldLogin text="Email" type="email" className="signup-email" name="email" value={userInputs.email} handleInputChange={handleInputChange}></FieldLogin>
+        <FieldLogin text="Password" type="password" className="signup-password" name="password" value={userInputs.password} handleInputChange={handleInputChange}></FieldLogin>
     </Fields>
     <Submit>
         <SignupSection>
@@ -62,6 +65,7 @@ export default function LoginForm(props){
   </>
 }
 
+
 const Fields = styled.form`
   height: 90%;
   display : grid;
@@ -69,15 +73,27 @@ const Fields = styled.form`
   grid-template-columns: repeat(auto-fit, minmax(200px,1fr));
   grid-gap: 1em, 1em;
   padding-top: 5%;
+
+  @media screen and (min-width:768px) and (max-width:1024px) {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+  }
+  
+  @media screen and (max-width:767px) { 
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+  }
 `
 
 const SignupSection = styled.div`
   display: flex;
   flex-direction: row;
+
 `
 
 const Submit = styled.div`
-
   width: 100%;
   display: flex;
   flex-direction: column;
@@ -94,4 +110,12 @@ const Submit = styled.div`
     text-decoration : underline;
   }
 
+`
+
+const ErrorMessage = styled.p`
+    color : ${colors.pink};
+    font-size : 1em;
+    margin-left : auto;
+    margin-right : auto;
+    margin-bottom: 0;
 `

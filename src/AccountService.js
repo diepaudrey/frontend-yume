@@ -21,7 +21,7 @@ const AccountService = {
             }
     },
     
-    isFormValid: function isFormValid(inputValues) {
+    isSignupFormValid: function isFormValid(inputValues) {
       let errors = {};
       let errorFlags = {};
     
@@ -53,6 +53,8 @@ const AccountService = {
     
       return [errors, errorFlags];
     },
+
+
 
   setUserInputs : function setUserInputs(inputValues){
     let result = {};

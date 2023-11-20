@@ -18,7 +18,7 @@ export default function LoginBox(){
   }
 
     return <Container>
-    <h1>YUME</h1>
+    <Title>YUME</Title>
     <TitleBox> <h2>{text}</h2> </TitleBox>
     <ContentBox>
         {isSignUpPage ? <SignUpForm handleClick={handleClick} buttonText={text}/> : <LoginForm handleClick={handleClick} text={text}/>}
@@ -26,12 +26,24 @@ export default function LoginBox(){
   </Container>
 }
 
+const Title = styled.h1`
+
+  @media screen and (min-width:768px) and (max-width:1024px) {
+    font-size: 5rem;
+    }
+  
+    @media screen and (max-width:767px) {
+      font-size: 3rem;
+    }
+`
+
 const Container = styled.div`
     width: 30vw;
     height: 90vh;
     display : flex;
     flex-direction: column;
     align-items: center;
+    justify-content: center;
     margin-top: 2%;
     color : ${colors.green};
 
@@ -42,15 +54,15 @@ const Container = styled.div`
     }
 
     @media screen and (min-width:768px) and (max-width:1024px) {
-      
-      width : 70%;
-      height : 70%;
+      width : 80%;
+      height : 100%;
     }
   
     @media screen and (max-width:767px) {
-      margin-top: 10%;
+      margin-top: 0;
+      margin-bottom: 10%;
       width : 80%;
-      height : 70%;
+      height : 100%;
     }
 `
 
@@ -95,6 +107,7 @@ const ContentBox = styled.div`
       grid-row : 3/4;
     }
 
+    padding-bottom: 2%;
 
     @media screen and (max-width:767px) {
         border-radius   : 0px 0px 17px 17px;

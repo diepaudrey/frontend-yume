@@ -20,6 +20,14 @@ const Container = styled.section`
     display: flex;
     flex-direction: row;
     align-items: center;
+
+    @media screen and (min-width:768px) and (max-width:1023px){
+        flex-direction: column;
+    }
+
+    @media screen and (max-width:767px) {
+        flex-direction: column;
+    }
 `
 
 const ImgComp = styled.div`
@@ -29,6 +37,14 @@ const ImgComp = styled.div`
     background-size: contain;
     background-repeat: no-repeat;
     background-position: center;
+
+    @media screen and (min-width:768px) and (max-width:1023px){
+        display : none;
+    }
+
+    @media screen and (max-width:767px) {
+        display : none;
+    }
 `
 
 const RightContainer = styled.div`
@@ -39,4 +55,14 @@ const RightContainer = styled.div`
     display: flex;
     justify-content: center;
     align-items: center;
+
+    @media screen and (min-width:768px) and (max-width:1023px){
+        width: 100%;
+        border-radius: 0px 0px 0px 0px;
+    }
+
+    @media screen and (max-width:767px){
+        width: 100%;
+        border-radius: 0px 0px 0px 0px;
+    }
 `

@@ -4,17 +4,6 @@ import colors from '../colors.js'
 export default function FieldLogin(props){
     const {text, type, className, id, name, handleInputChange, inputValue, displayError, errorMessage} = props;
 
-    // const [inputValue, setInputValue] = useState('');
-    // const handleInputChange = (event) => {
-    //   const value = event.target.value;
-    //   // console.log(value);
-    //   setInputValue(value);
-
-    //   // setInputValue(prev => ({...prev, [event.target.name]:[event.target.value]}))
-
-    // };
-
-
     return <Container className={className}> 
       <p className='title'>{text}</p>
       {displayError ? <ErrorMessage>{errorMessage}</ErrorMessage> : null}
@@ -38,6 +27,15 @@ const Container = styled.div`
       margin-bottom: 5px;
       color : ${colors.green}
   }
+
+  @media screen and (min-width: 768px) and (max-width: 1024px){
+    width: 80%;
+    font-size: 1.2em;
+  };
+
+  @media screen and (max-width : 767px) {
+    width: 80%;
+  };
 `
 
 const AnswerContainer = styled.div`
@@ -66,15 +64,15 @@ const AnswerContainer = styled.div`
   @media screen and (min-width: 768px) and (max-width: 1024px){
     input{
       margin-left: 20px;
-      width : 100%;
+      width : 50%;
+      font-size: 1em;
     };
 
-    height : 50px;
-  }
+  };
 
   @media screen and (max-width : 767px) {
     input{
-      width : 100%;
+      width : 50%;
       margin-left: 15px;
     };
     font-size: 0.8em;

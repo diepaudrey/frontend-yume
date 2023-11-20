@@ -13,4 +13,8 @@ const Button = styled.button`
     height: auto;
     margin : 2%;
     cursor : pointer;
+
+    @media screen and (max-width:767px) {
+        width: 30%;
+    }
 `
