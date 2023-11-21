@@ -72,7 +72,7 @@ const Fields = styled.form`
   grid-template-rows: repeat(4, 1fr);
   grid-template-columns: repeat(auto-fit, minmax(200px,1fr));
   grid-gap: 1em, 1em;
-  padding-top: 5%;
+  padding-top: 3%;
 
   @media screen and (min-width:768px) and (max-width:1024px) {
     display: flex;
@@ -114,7 +114,7 @@ const Submit = styled.div`
 
 const ErrorMessage = styled.p`
     color : ${colors.pink};
-    font-size : 1em;
+    font-size : 0.8em;
     margin-left : auto;
     margin-right : auto;
     margin-bottom: 0;
