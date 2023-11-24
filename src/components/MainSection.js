@@ -5,14 +5,16 @@ import DailyQuestion from './DailyQuestion.js';
 import DateIdea from './DateIdea.js';
 import colors from '../colors.js';
 import sewingImg from "../assets/img/sewing-cuate.png"
+import AccountService from "../AccountService.js";
 
 
 
 export default function MainSection(props){
     const {user_name} = props;
+    // AccountService.userAuthentication();
     return <Section>
         <UserContainer>
-                <h3>Welcome back {user_name} ! </h3>
+                <h3> Welcome back</h3>
             </UserContainer>
         <DailyQuestion/>
         <BottomSection>

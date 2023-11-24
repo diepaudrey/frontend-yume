@@ -1,24 +1,41 @@
+import Axios from 'axios'
+
 const AccountService = {
-    createUser : async function createUser(userInfo){
-        console.log("User info api : ", userInfo);
-        try{
-            const response = await fetch('http://localhost:3001/signup', {
-                method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json',
-                },
-                body: JSON.stringify(userInfo),
-            })
-            if (!response.ok) {
-                throw new Error(`Failed to create user. Server responded with ${response.status} ${response.statusText}`);
-              }
+    // createUser : async function createUser(userInfo){
+    //     console.log("User info api : ", userInfo);
+    //     try{
+    //         const response = await fetch('http://localhost:3001/signup', {
+    //             method: 'POST',
+    //             headers: {
+    //                 'Content-Type': 'application/json',
+    //             },
+    //             body: JSON.stringify(userInfo),
+    //         })
+    //         if (!response.ok) {
+    //             throw new Error(`Failed to create user. Server responded with ${response.status} ${response.statusText}`);
+    //           }
           
-              const data = await response.json();
-              return data; 
-            } catch (err) {
-              console.error('Error API request server : ', err.message);
-              throw err; 
-            }
+    //           const data = await response.json();
+    //           return data; 
+    //         } catch (err) {
+    //           console.error('Error API request server : ', err.message);
+    //           throw err; 
+    //         }
+    // },
+
+    createUser : function createUser(userInfo){
+      Axios.post("http://localhost:3001/signup", {
+        first_name : userInfo.first_name,
+        last_name : userInfo.last_name,
+        email : userInfo.email,
+        password : userInfo.password
+      }).then((response) => {
+        if(response.status !== 200) {
+          throw new Error(`Failed to create user. Server responded with ${response.status} ${response.statusText}`);
+        }else{
+          return response.data;
+        }
+      })
     },
     
     isSignupFormValid: function isFormValid(inputValues) {
@@ -64,25 +81,61 @@ const AccountService = {
   },
 
 
-    checkUserLogin : async function checkUserLogin(userInfo){
-    try{
-        const response = await fetch('http://localhost:3001/login', {
-            method: 'POST',
-            headers: {
-                'Content-Type': 'application/json',
-            },
-            body: JSON.stringify(userInfo),
-        })
-        if (!response.ok) {
-            return false;
-          }
-        return true; 
-        } catch (err) {
-          console.error('Error API request server : ', err.message);
-          throw err; 
-        }
+    // checkUserLogin : async function checkUserLogin(userInfo, setLoginStatus){
+    // try{
+    //     const response = await fetch('http://localhost:3001/login', {
+    //         method: 'POST',
+    //         headers: {
+    //             'Content-Type': 'application/json',
+    //         },
+    //         body: JSON.stringify(userInfo),
+    //     })
+
+    //     const data = await response.json();
+    //     console.log(data);
+
+    //     if (!data.auth) {
+
+    //         setLoginStatus(false);
+    //         return false;
+    //       }else{
+            
+    //         setLoginStatus(true);
+    //         localStorage.setItem("token", data.token);
+    //         return true; 
+    //       }
+    //     } catch (err) {
+    //       console.error('Error API request server : ', err.message);
+    //       throw err; 
+    //     }
     
+    // },
+
+    checkUserLogin : async function checkUserLogin(userInfo){
+      const response = await Axios.post("http://localhost:3001/login", {
+        email: userInfo.email,
+        password: userInfo.password
+      });
+      console.log(response.data);
+      if (!response.data.auth) {
+        return false;
+      } else {
+        localStorage.setItem("token", response.data.token);
+        return true;
+      }
     },
+
+    userAuthentication : function userAuthentication(){
+      Axios.get("http://localhost:3001/isUserAuth", {
+      headers : {
+        "x-access-token" : localStorage.getItem("token"), 
+      },
+      }).then((response)=>{
+        console.log(response)
+      })
+    }
+
+
 
 
 }

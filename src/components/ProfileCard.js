@@ -3,14 +3,14 @@ import colors from '../colors.js'
 import InformationComponent from './InformationComponent.js';
 
 export default function ProfileCard(props){
-    const {img} = props;
+    const {img, lastName, firstName, email} = props;
     return <Card> 
         <TopInformation> 
             <img src={img} alt="Yourself"/>
             <ProfileInfo>
-                <InformationComponent infoType="Name" content="Anna"/> {/*{Dynamic Profile to do*/}
-                <InformationComponent infoType="Age" content="24"/>
-                <InformationComponent infoType="Email" content="blbl@gmail.com"/>
+                <InformationComponent infoType="First Name" content={firstName}/>
+                <InformationComponent infoType="Last Name" content={lastName}/>
+                <InformationComponent infoType="Email" content={email}/>
             </ProfileInfo>
         </TopInformation>
         <BottomInformation>

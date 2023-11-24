@@ -3,6 +3,7 @@ import colors from '../colors.js'
 
 import { useNavigate } from 'react-router-dom';
 import {useState} from 'react'
+import Axios from 'axios'
 
 import FieldLogin from './FieldLogin.js'
 import SendButton from './SendButton.js'
@@ -13,8 +14,8 @@ import AccountService from '../AccountService.js'
 export default function LoginForm(props){
   const {handleClick, text} = props
   const [userInputs, setUserInputs] = useState({
-    email : '',
-    password : ''
+    email : 'email',
+    password : 'password'
   });
 
   const [error, setError] = useState(false);
@@ -28,12 +29,13 @@ export default function LoginForm(props){
     }));
   }
 
+  
   const handleLoginSubmit = async (event) => {
     event.preventDefault();
     console.log("userinfo LOGIN:" , userInputs)
     try{
-      const isLoggedIn = await AccountService.checkUserLogin(userInputs);
-      if(isLoggedIn){
+      const userFound = await AccountService.checkUserLogin(userInputs);
+      if(userFound){
         console.log("Front : Logged in");
         navigate('/home');
         setError(false)
@@ -48,6 +50,7 @@ export default function LoginForm(props){
     }
     
   }
+
 
     return <>
     {error ? <ErrorMessage>Wrong email/password combination</ErrorMessage> : null}

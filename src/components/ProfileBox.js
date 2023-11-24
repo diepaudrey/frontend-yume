@@ -4,11 +4,12 @@ import ProfileCard from './ProfileCard.js'
 import profileImg from '../assets/img/profile_picture.png'
 
 
-export default function ProfileBox(){
+export default function ProfileBox(props){
+    const {user} = props;
     return <ProfileContainer>
     <TitleBox> <h2>Your Profile</h2> </TitleBox>
     <ContentBox> 
-      <ProfileCard img={profileImg}/> 
+      <ProfileCard img={profileImg} lastName={user.last_name} firstName={user.first_name} email={user.email}/> 
     </ContentBox>
     </ProfileContainer>
 }
