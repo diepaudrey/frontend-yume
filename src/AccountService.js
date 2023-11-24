@@ -120,7 +120,9 @@ const AccountService = {
       if (!response.data.auth) {
         return false;
       } else {
+        console.log("USER INFO : ", response.data.result);
         localStorage.setItem("token", response.data.token);
+        localStorage.setItem("user_info", JSON.stringify(response.data.result));
         return true;
       }
     },
@@ -133,6 +135,12 @@ const AccountService = {
       }).then((response)=>{
         console.log(response)
       })
+    },
+
+    getUserInfo : function userInfo(){
+      const userInfo = localStorage.getItem('user_info');
+      const jsonUserInfo = JSON.parse(userInfo);
+      return jsonUserInfo;
     }
 
 

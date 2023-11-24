@@ -9,7 +9,7 @@ export default function ProfileBox(props){
     return <ProfileContainer>
     <TitleBox> <h2>Your Profile</h2> </TitleBox>
     <ContentBox> 
-      <ProfileCard img={profileImg} lastName={user.last_name} firstName={user.first_name} email={user.email}/> 
+      <ProfileCard img={profileImg} lastName={user.lastName} firstName={user.firstName} email={user.email}/> 
     </ContentBox>
     </ProfileContainer>
 }
