@@ -82,15 +82,17 @@ const Fields = styled.form`
     padding-top: 5%;
 
     @media screen and (min-width:768px) and (max-width:1024px) {
-        height: 60%;
-        grid-template-rows: repeat(4, 1fr);
+        height: auto;
+        grid-template-rows: repeat(3, 1fr);
         grid-template-columns: repeat(auto-fit, minmax(100px,1fr));
+
     }
 
     @media screen and (max-width:767px) {
-        height: 60%;
+        height: auto;
         grid-template-rows: repeat(4, 3.8em);
         grid-template-columns: repeat(auto-fit, minmax(150px,1fr));
+
     }
 `
 
@@ -117,7 +119,9 @@ const Submit = styled.div`
 `
 
 const SubmitMessage = styled.h3`
-    margin-left: 5%;
+    margin: 2% 0 0 5% ;
     color : ${colors.green};
+    display: flex;
+    justify-content: center;
 `
 

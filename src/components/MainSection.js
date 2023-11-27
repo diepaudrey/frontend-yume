@@ -13,8 +13,8 @@ export default function MainSection(){
     const userInfo = AccountService.getUserInfo()
     return <Section>
         <UserContainer>
-                <h3> Welcome back {userInfo.firstName}</h3>
-            </UserContainer>
+                <h2> Welcome back {userInfo.firstName}</h2>
+        </UserContainer>
         <DailyQuestion/>
         <BottomSection>
             <BoxComponent title_props={{ title_text: 'Date Idea' }} box_props={{}}>
@@ -103,5 +103,15 @@ const NavCardSection = styled.section`
 `
 
 const UserContainer = styled.div`
+    font-size: 0.8em;
+    color : ${colors.light_green};
+
+    @media screen and (min-width:768px) and (max-width:1024px) {
+        font-size: 0.6em;
+    }
+
+    @media screen and (max-width:767px) {
+        font-size: 0.4em;
+    }
 
 `

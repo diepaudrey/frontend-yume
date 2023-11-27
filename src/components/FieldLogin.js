@@ -30,7 +30,6 @@ const Container = styled.div`
 
   @media screen and (min-width: 768px) and (max-width: 1024px){
     width: 80%;
-    font-size: 1.2em;
   };
 
   @media screen and (max-width : 767px) {
@@ -65,7 +64,7 @@ const AnswerContainer = styled.div`
     input{
       margin-left: 20px;
       width : 50%;
-      font-size: 1em;
+      font-size: 0.8em;
     };
 
   };

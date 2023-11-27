@@ -38,14 +38,6 @@ export default function DailyQuestion(){
     
 };
 
-// function reloadPage(){
-//   const fiveMinutes = 2 * 60 * 1000; // 5 minutes in milliseconds
-//   console.log('Reloading page in 5 minutes');
-//   setTimeout(() => {
-//     console.log('Reloading now');
-//     window.location.reload(true); // Reload the page
-//   }, fiveMinutes);
-// }
 
 
 function reloadPageDaily(){
@@ -87,7 +79,6 @@ const QuestionContainer = styled(Container)`
     margin-bottom: 10px;
   };
   
-  margin-top: 5%;
   display: flex;
   flex-direction: column;
   height : auto;

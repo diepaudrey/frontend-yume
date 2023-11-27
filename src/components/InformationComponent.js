@@ -40,12 +40,12 @@ const Container = styled.div`
 
         h3{
             margin-left: 5%;
-            font-size: 1.2em;
+            font-size: 1em;
         }
 
         p{
             margin-right: 5%;
-            font-size: 1.2em;
+            font-size: 0.8em;
         }
     }
 
@@ -56,12 +56,12 @@ const Container = styled.div`
 
         h3{
             margin-left: 5%;
-            font-size: 0.7em;
+            font-size: 0.6em;
         }
 
         p{
             margin-right: 5%;
-            font-size: 0.7em;
+            font-size: 0.5em;
         }
     }
 

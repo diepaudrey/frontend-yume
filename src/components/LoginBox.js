@@ -39,8 +39,9 @@ const Title = styled.h1`
 
 const Container = styled.div`
     width: 30vw;
-    height: 90vh;
+    /* height: 100vh; */
     display : flex;
+    
     flex-direction: column;
     align-items: center;
     justify-content: center;
@@ -92,13 +93,13 @@ const TitleBox = styled.div`
 `
 const ContentBox = styled.div`
     width: 100%;
-    height: 50vh;
+    height: auto;
     background-color: white;
     border-radius: 0px 0px 25px 25px;
     box-shadow: 0px 4px 4px 0px rgba(68, 68, 68, 0.4);
     display: flex;
     flex-direction: column;
-    justify-content: space-between;
+    justify-content: space-around;
 
     .email{
       grid-row: 2/3;
