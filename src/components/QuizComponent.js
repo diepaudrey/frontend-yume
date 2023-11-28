@@ -25,6 +25,7 @@ export default function QuizComponent(){
     }
 
     useEffect(()=>{
+        QuizService.reloadPage5mins();
         QuizService.getQuizQuestion().then(data=>{
             setQuestion(data);
         }).catch(err => {

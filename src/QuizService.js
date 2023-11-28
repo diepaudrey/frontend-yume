@@ -26,6 +26,26 @@ const QuizService = {
     };
   },
 
+  reloadPageDaily : function reloadPageDaily(){
+    const now = new Date();
+    const midnight = new Date(); 
+    midnight.setHours(24, 0, 0, 0); 
+  
+    const timeUntilMidnight = midnight - now;
+  
+    setTimeout(() => {
+      window.location.reload(true); 
+    }, timeUntilMidnight);
+  
+  },
+
+  reloadPage5mins : function reloadPage5mins(){
+    setTimeout(() => {
+      window.location.reload(true); 
+    }, 300000);
+  
+  }
+
 }
 
 export default QuizService
