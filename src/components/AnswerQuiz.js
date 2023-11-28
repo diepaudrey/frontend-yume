@@ -3,7 +3,7 @@ import colors from '../colors.js'
 import checkmark from '../assets/img/checkmark.svg'
 
 export default function AnswerQuiz(props){
-  const {bg_color, answer_id, isChecked, onChange} = props; 
+  const {answer_text, bg_color, answer_id, isChecked, onChange} = props; 
 
   const handleCheckboxChange = () =>{
     onChange(answer_id);
@@ -14,13 +14,13 @@ export default function AnswerQuiz(props){
     <CheckedAnswer>
       <input type="checkbox" id={answer_id} checked={isChecked} onChange={handleCheckboxChange}/>
       <label htmlFor={answer_id} className='custom-input'></label>
-      <label htmlFor="custom-checkbox">Answer</label>
+      <label htmlFor="custom-checkbox">{answer_text}</label>
     </CheckedAnswer>
   ): (
     <AnswerContainer style={{backgroundColor:bg_color}}>
       <input type="checkbox" id={answer_id} checked={isChecked} onChange={handleCheckboxChange}/>
       <label htmlFor={answer_id} className='custom-input'></label>
-      <label htmlFor={answer_id}>Answer</label>
+      <label htmlFor={answer_id}>{answer_text}</label>
     </AnswerContainer>
   )}
   </>
