@@ -1,27 +1,7 @@
 import Axios from 'axios'
 
+
 const AccountService = {
-    // createUser : async function createUser(userInfo){
-    //     console.log("User info api : ", userInfo);
-    //     try{
-    //         const response = await fetch('http://localhost:3001/signup', {
-    //             method: 'POST',
-    //             headers: {
-    //                 'Content-Type': 'application/json',
-    //             },
-    //             body: JSON.stringify(userInfo),
-    //         })
-    //         if (!response.ok) {
-    //             throw new Error(`Failed to create user. Server responded with ${response.status} ${response.statusText}`);
-    //           }
-          
-    //           const data = await response.json();
-    //           return data; 
-    //         } catch (err) {
-    //           console.error('Error API request server : ', err.message);
-    //           throw err; 
-    //         }
-    // },
 
     createUser : function createUser(userInfo){
       Axios.post("http://localhost:3001/signup", {
@@ -80,37 +60,6 @@ const AccountService = {
     result.first_name = inputValues.first_name;
   },
 
-
-    // checkUserLogin : async function checkUserLogin(userInfo, setLoginStatus){
-    // try{
-    //     const response = await fetch('http://localhost:3001/login', {
-    //         method: 'POST',
-    //         headers: {
-    //             'Content-Type': 'application/json',
-    //         },
-    //         body: JSON.stringify(userInfo),
-    //     })
-
-    //     const data = await response.json();
-    //     console.log(data);
-
-    //     if (!data.auth) {
-
-    //         setLoginStatus(false);
-    //         return false;
-    //       }else{
-            
-    //         setLoginStatus(true);
-    //         localStorage.setItem("token", data.token);
-    //         return true; 
-    //       }
-    //     } catch (err) {
-    //       console.error('Error API request server : ', err.message);
-    //       throw err; 
-    //     }
-    
-    // },
-
     checkUserLogin : async function checkUserLogin(userInfo){
       const response = await Axios.post("http://localhost:3001/login", {
         email: userInfo.email,
@@ -141,9 +90,13 @@ const AccountService = {
       const userInfo = localStorage.getItem('user_info');
       const jsonUserInfo = JSON.parse(userInfo);
       return jsonUserInfo;
+    },
+
+    logOut : function logOut(navigate){
+      localStorage.removeItem('user_info');
+      localStorage.removeItem('token');
+      navigate('/login');
     }
-
-
 
 
 }

@@ -1,18 +1,19 @@
 import styled from "styled-components"
 import React, { useState, useEffect } from 'react';
-import fetchDailyQuestion from '../APIRequest'
+import DailyQuestionService from '../Services/DailyQuestionService'
 
 
 
 export default function DailyQuestion(){
     const handleClick = () => {
+      DailyQuestionService.sendDailyAnswer(inputValue);
       console.log('Bouton cliqué !'); // Afficher un message dans la console lorsque le bouton est cliqué
     };
     
     const [question, setQuestion] = useState('Daily Question');
     useEffect(() => {
-      reloadPageDaily();
-      fetchDailyQuestion().then((data) => {
+      DailyQuestionService.reloadPageDaily();
+      DailyQuestionService.fetchDailyQuestion().then((data) => {
         if (data) {
           setQuestion(data);
         }

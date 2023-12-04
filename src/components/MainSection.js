@@ -3,14 +3,22 @@ import NavCard from './NavCard.js';
 import BoxComponent from './BoxComponent.js';
 import DailyQuestion from './DailyQuestion.js';
 import DateIdea from './DateIdea.js';
+import SendButton from './SendButton.js';
 import colors from '../colors.js';
 import sewingImg from "../assets/img/sewing-cuate.png"
-import AccountService from "../AccountService.js";
+import AccountService from '../Services/AccountService.js';
+import { useNavigate } from 'react-router-dom';
 
 
 
 export default function MainSection(){
     const userInfo = AccountService.getUserInfo()
+    const navigate = useNavigate();
+
+    const handleLogOut = () => {
+        AccountService.logOut(navigate);
+    }
+
     return <Section>
         <UserContainer>
                 <h2> Welcome back {userInfo.firstName}</h2>
@@ -26,6 +34,7 @@ export default function MainSection(){
                 <NavCard name="Game Idea" path="/game" color={colors.brown} BgColor={colors.light_brown}/>
             </NavCardSection>
         </BottomSection>
+        <SendButton text="Log out" onSubmit={handleLogOut}/>
         </Section>
 
 }

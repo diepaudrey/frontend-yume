@@ -2,29 +2,41 @@ import Axios from 'axios'
 
 const QuizService = {
 
-  getQuizQuestion : async function getQuestion(){
+  getQuiz : async function getQuiz(){
     try{
-      const response = await Axios.get("http://localhost:3001/quiz_question")
-      const question = response.data[0].question_text;
-      console.log("Côté Service : ", question)
-      return question;
+      const response = await Axios.get("http://localhost:3001/quiz")
+      const quiz = response.data;
+      return quiz;
     }catch(error) {
       console.error("Error fetching quiz question:", error);
       throw error;
     };
   },
 
-  getQuizAnswers : async function getAnswers(){
-    try{
-      const response = await Axios.get("http://localhost:3001/quiz_answers")
-      const answers = response.data;
-      console.log("API : ", answers)
-      return answers;
-    }catch(error) {
-      console.error("Error fetching quiz answers:", error);
-      throw error;
-    };
-  },
+
+  // getQuestionAnswers : async function getAnswers(questionId){
+  //   try{
+  //     const response = await Axios.get("http://localhost:3001/question_answers")
+  //     const answers = response.data;
+  //     console.log("API : ", answers)
+  //     return answers;
+  //   }catch(error) {
+  //     console.error("Error fetching quiz answers:", error);
+  //     throw error;
+  //   };
+  // },
+
+  // getQuizAnswers : async function getAnswers(){
+  //   try{
+  //     const response = await Axios.get("http://localhost:3001/quiz_answers")
+  //     const answers = response.data;
+  //     console.log("API : ", answers)
+  //     return answers;
+  //   }catch(error) {
+  //     console.error("Error fetching quiz answers:", error);
+  //     throw error;
+  //   };
+  // },
 
   reloadPageDaily : function reloadPageDaily(){
     const now = new Date();

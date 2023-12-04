@@ -5,7 +5,7 @@ import {useEffect, useState} from 'react'
 
 import FieldLogin from './FieldLogin.js'
 import SendButton from './SendButton.js'
-import AccountService from '../AccountService.js'
+import AccountService from '../Services/AccountService.js'
 
 export default function SignUpForm(props){
     const {handleClick, buttonText} = props;

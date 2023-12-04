@@ -8,52 +8,85 @@ import QuizService from "../QuizService.js"
 
 
 export default function QuizComponent(){
+    //Selected answer
     const [answersState, setAnswersState] = useState({a1 : false, a2 : false, a3 : false, a4 : false, a5 : false});
-    const [question, setQuestion] = useState('Question')
-    const [answers, setAnswers] = useState([])
+    //Display Question and anwsers
 
+    const [quiz, setQuiz] = useState([]);
+    const [currentQuestion, setCurrentQuestion] = useState();
+    const [currentAnswers, setCurrentAnswers] = useState();
+
+    //To change the question
+    const [questionNum, setQuestionNum] = useState(0);
+    const [textButton, setTextButton] = useState('Next');
+
+
+    useEffect(() => {
+        const fetchData = async () => {
+          try {
+            const data = await QuizService.getQuiz();
+            setQuiz(data);
+            setCurrentQuestion(data[questionNum]?.question_text);
+            setCurrentAnswers(data[questionNum]?.answers);
+          } catch (error) {
+            console.error("Error fetching quiz:", error);
+          }
+        };
+
+        //refresh when changing question
+        const newAnswerState = {...answersState};
+        for(const key in newAnswerState) {
+            newAnswerState[key] = false;
+        }
+        setAnswersState(newAnswerState);
+      
+        fetchData();
+      }, [questionNum]);
+
+    const findTrueAnswer = () => {
+        const trueAnswer = Object.keys(answersState).find((key) => answersState[key]);
+        return trueAnswer;
+    };
+
+    const handleSubmit = () => {
+        console.log('Submit')
+
+        const userAnswer = findTrueAnswer();
+
+        if(questionNum !== quiz.length) {
+            setQuestionNum(questionNum+1);
+        }
+        setTextButton('Submit');
+        
+    }
+    
 
     const handleAnswerChange = (answerId) => {
         const newAnswerState = {...answersState};
-
         for(const key in newAnswerState) {
             newAnswerState[key] = false;
         }
         newAnswerState[answerId] = true;
-
         setAnswersState(newAnswerState);
     }
 
-    useEffect(()=>{
-        QuizService.reloadPage5mins();
-        QuizService.getQuizQuestion().then(data=>{
-            setQuestion(data);
-        }).catch(err => {
-            console.error(err);
-        })
-    }, []);
 
-    useEffect(()=>{
-        QuizService.getQuizAnswers().then(data=>{
-            const answersTab = data.map(answers => answers.answer_text);
-            setAnswers(answersTab);
-            
-        }).catch(err => {
-            console.error(err);
-        })
-    }, []);
-
-
-
-    return <QuizBox title_props={{title_color:colors.pink, title_text:question}} box_props={{box_color:colors.cream}}>
+    return <QuizBox title_props={{title_color:colors.pink, title_text:currentQuestion}} box_props={{box_color:colors.cream}}>
         <AnswersContainer>
-            <AnswerQuiz answer_text={answers[0]} answer_id="a1" isChecked={answersState.a1} onChange={handleAnswerChange}/>
-            <AnswerQuiz answer_text={answers[1]} answer_id="a2" isChecked={answersState.a2} onChange={handleAnswerChange}/>
-            <AnswerQuiz answer_text={answers[2]} answer_id="a3" isChecked={answersState.a3} onChange={handleAnswerChange}/>
-            <AnswerQuiz answer_text={answers[3]} answer_id="a4" isChecked={answersState.a4} onChange={handleAnswerChange}/>
-            <SendButton/>
+            { currentAnswers!==undefined && questionNum !== quiz.length ?
+            <>
+                <AnswerQuiz answer_text={currentAnswers[0].answer_text} answer_id="a1" isChecked={answersState.a1} onChange={handleAnswerChange}/>
+                <AnswerQuiz answer_text={currentAnswers[1].answer_text} answer_id="a2" isChecked={answersState.a2} onChange={handleAnswerChange}/>
+                <AnswerQuiz answer_text={currentAnswers[2].answer_text} answer_id="a3" isChecked={answersState.a3} onChange={handleAnswerChange}/>
+                <AnswerQuiz answer_text={currentAnswers[3].answer_text} answer_id="a4" isChecked={answersState.a4} onChange={handleAnswerChange}/>
+                <SendButton text={textButton} onSubmit={handleSubmit}/>
+            </>
+            : <p>Thank for submitting !</p>
+            }
+            
         </AnswersContainer>
     </QuizBox>
+
 }
 
 const AnswersContainer = styled.div`

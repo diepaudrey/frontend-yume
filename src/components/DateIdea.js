@@ -1,4 +1,5 @@
 import styled from "styled-components"
+import colors from "../colors.js"
 
 export default function DateIdea(props){
     const {text, img} = props;
@@ -11,6 +12,7 @@ export default function DateIdea(props){
 
 const DateIdeaContainer = styled.div`
     height: auto;
+    max-height: 20vh;
     max-width: fit-content;
     width: 15vw;
     display: flex;
@@ -18,10 +20,15 @@ const DateIdeaContainer = styled.div`
     justify-content: center;
     align-items: center;
     margin: 10%;
+    font-size : 1em;
+    color : grey;
+
 
     img{
         width: 80%;
         margin: 0;
+        max-width: 100%;
+        height: auto;
     }
 
     p{
