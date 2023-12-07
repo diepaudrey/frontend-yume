@@ -4,7 +4,6 @@ import signInIllustration from '../assets/img/sign_in_img.svg'
 import LoginBox from '../components/LoginBox.js'
 
 
-
 export default function Login(){
     return <Container>
         <ImgComp/>

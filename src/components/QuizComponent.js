@@ -6,6 +6,8 @@ import SendButton from "./SendButton.js"
 import {useEffect, useState} from 'react'
 import QuizService from "../QuizService.js"
 
+import Axios from 'axios'
+
 
 export default function QuizComponent(){
     //Selected answer
@@ -19,6 +21,8 @@ export default function QuizComponent(){
     //To change the question
     const [questionNum, setQuestionNum] = useState(0);
     const [textButton, setTextButton] = useState('Next');
+
+    const [userAnswers, setUserAnswers] = useState([]);
 
 
     useEffect(() => {
@@ -43,21 +47,24 @@ export default function QuizComponent(){
         fetchData();
       }, [questionNum]);
 
-    const findTrueAnswer = () => {
-        const trueAnswer = Object.keys(answersState).find((key) => answersState[key]);
-        return trueAnswer;
+    
+    //User response and send database
+
+    const findUserAnswer = () => {
+        const userAnswer = Object.keys(answersState).find((key) => answersState[key]);
+        const indexAnswer = Object.keys(answersState).indexOf(userAnswer);
+        return indexAnswer;
     };
 
     const handleSubmit = () => {
         console.log('Submit')
 
-        const userAnswer = findTrueAnswer();
+        setUserAnswers((prevAnswers) => [...prevAnswers, currentAnswers[findUserAnswer()].answer_text]);
 
         if(questionNum !== quiz.length) {
             setQuestionNum(questionNum+1);
         }
         setTextButton('Submit');
-        
     }
     
 
@@ -70,7 +77,6 @@ export default function QuizComponent(){
         setAnswersState(newAnswerState);
     }
 
-
     return <QuizBox title_props={{title_color:colors.pink, title_text:currentQuestion}} box_props={{box_color:colors.cream}}>
         <AnswersContainer>
             { currentAnswers!==undefined && questionNum !== quiz.length ?
@@ -81,7 +87,7 @@ export default function QuizComponent(){
                 <AnswerQuiz answer_text={currentAnswers[3].answer_text} answer_id="a4" isChecked={answersState.a4} onChange={handleAnswerChange}/>
                 <SendButton text={textButton} onSubmit={handleSubmit}/>
             </>
-            : <p>Thank for submitting !</p>
+            : <p>Thank for submitting ! {userAnswers} </p>
             }
             
         </AnswersContainer>
