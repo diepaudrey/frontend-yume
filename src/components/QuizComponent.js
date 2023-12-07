@@ -15,14 +15,14 @@ export default function QuizComponent(){
     //Display Question and anwsers
 
     const [quiz, setQuiz] = useState([]);
-    const [currentQuestion, setCurrentQuestion] = useState();
-    const [currentAnswers, setCurrentAnswers] = useState();
+    const [currentQuestion, setCurrentQuestion] = useState('');
+    const [currentAnswers, setCurrentAnswers] = useState({});
 
     //To change the question
     const [questionNum, setQuestionNum] = useState(0);
     const [textButton, setTextButton] = useState('Next');
 
-    const [userAnswers, setUserAnswers] = useState([]);
+    //const [userAnswers, setUserAnswers] = useState([])
 
 
     useEffect(() => {
@@ -59,7 +59,17 @@ export default function QuizComponent(){
     const handleSubmit = () => {
         console.log('Submit')
 
-        setUserAnswers((prevAnswers) => [...prevAnswers, currentAnswers[findUserAnswer()].answer_text]);
+        //Prepare data of the user answer to be able to post the request to database
+        const userId = JSON.parse(localStorage.getItem('user_info')).id;
+
+        
+        const userAnswersInfo = {
+            id_user : userId,
+            id_quiz : quiz[questionNum]?.quiz_id,
+            id_question : quiz[questionNum]?.question_id,
+            id_answer : currentAnswers[findUserAnswer()].answer_id,
+        }
+        QuizService.postQuizAnswer(userAnswersInfo);
 
         if(questionNum !== quiz.length) {
             setQuestionNum(questionNum+1);
@@ -79,7 +89,7 @@ export default function QuizComponent(){
 
     return <QuizBox title_props={{title_color:colors.pink, title_text:currentQuestion}} box_props={{box_color:colors.cream}}>
         <AnswersContainer>
-            { currentAnswers!==undefined && questionNum !== quiz.length ?
+            { currentAnswers!==undefined && questionNum !== quiz.length ? 
             <>
                 <AnswerQuiz answer_text={currentAnswers[0].answer_text} answer_id="a1" isChecked={answersState.a1} onChange={handleAnswerChange}/>
                 <AnswerQuiz answer_text={currentAnswers[1].answer_text} answer_id="a2" isChecked={answersState.a2} onChange={handleAnswerChange}/>
@@ -87,7 +97,7 @@ export default function QuizComponent(){
                 <AnswerQuiz answer_text={currentAnswers[3].answer_text} answer_id="a4" isChecked={answersState.a4} onChange={handleAnswerChange}/>
                 <SendButton text={textButton} onSubmit={handleSubmit}/>
             </>
-            : <p>Thank for submitting ! {userAnswers} </p>
+            : <p>Thank for submitting !</p>
             }
             
         </AnswersContainer>

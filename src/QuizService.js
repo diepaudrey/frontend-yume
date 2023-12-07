@@ -13,6 +13,27 @@ const QuizService = {
     };
   },
 
+  postQuizAnswer : async function postAnswer(userInfo){
+    const token = localStorage.getItem('token');
+    const response = await Axios.post("http://localhost:3001/user_question_answer", {
+      id_user : userInfo.id_user,
+      id_quiz : userInfo.id_quiz,
+      id_question : userInfo.id_question,
+      id_answer : userInfo.id_answer,
+    },{
+      headers: {
+      'x-access-token': token
+      },
+    }
+    );
+    if(response.status !== 200) {
+      throw new Error(`Failed to post answer: ${response.status}`);
+    }
+    else{
+      console.log("Answer posted !");
+    }
+  },
+
 
   // getQuestionAnswers : async function getAnswers(questionId){
   //   try{
