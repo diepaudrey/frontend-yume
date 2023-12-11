@@ -6,18 +6,34 @@ import DailyQuestionService from '../Services/DailyQuestionService'
 
 export default function DailyQuestion(){
     const handleClick = () => {
-      DailyQuestionService.sendDailyAnswer(inputValue);
-      console.log('Bouton cliqué !'); // Afficher un message dans la console lorsque le bouton est cliqué
+      const data = {
+        id_question : infoQuestion.id,
+        answer : inputValue
+      }
+      DailyQuestionService.sendDailyAnswer(data);
+      setInputValue('');
     };
     
     const [question, setQuestion] = useState('Daily Question');
+    const [infoQuestion, setInfoQuestion] = useState([])
     useEffect(() => {
-      DailyQuestionService.reloadPageDaily();
-      DailyQuestionService.fetchDailyQuestion().then((data) => {
-        if (data) {
-          setQuestion(data);
-        }
-      });
+      const date = DailyQuestionService.getDate();
+      
+      if(localStorage.getItem('date') !== date) {
+        console.log("new day")
+        localStorage.setItem('date', date);
+        DailyQuestionService.fetchDailyQuestion().then((data) => {
+          if (data) {
+            setQuestion(data[0].question);
+            setInfoQuestion(data[0]);
+            localStorage.setItem('dailyQuestion', data[0].question);
+          }
+        });
+      }
+      else{
+        console.log("same day");
+        setQuestion((localStorage.getItem('dailyQuestion')));
+      }
     }, []);
 
     const [inputValue, setInputValue] = useState('');

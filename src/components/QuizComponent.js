@@ -6,7 +6,6 @@ import SendButton from "./SendButton.js"
 import {useEffect, useState} from 'react'
 import QuizService from "../QuizService.js"
 
-import Axios from 'axios'
 
 
 export default function QuizComponent(){
@@ -22,29 +21,36 @@ export default function QuizComponent(){
     const [questionNum, setQuestionNum] = useState(0);
     const [textButton, setTextButton] = useState('Next');
 
-    //const [userAnswers, setUserAnswers] = useState([])
+    const [userAnswers, setUserAnswers] = useState({
+        id_quiz : -1,
+        id_question : -1,
+        id_answer : -1,
+    })
 
 
     useEffect(() => {
-        const fetchData = async () => {
-          try {
-            const data = await QuizService.getQuiz();
-            setQuiz(data);
-            setCurrentQuestion(data[questionNum]?.question_text);
-            setCurrentAnswers(data[questionNum]?.answers);
-          } catch (error) {
-            console.error("Error fetching quiz:", error);
-          }
-        };
+        const date = QuizService.getDate();
 
+        const fetchData = async () => {
+            try {
+              const data = await QuizService.getQuiz();
+              setQuiz(data);
+              setCurrentQuestion(data[questionNum]?.question_text);
+              setCurrentAnswers(data[questionNum]?.answers);
+            } catch (error) {
+              console.error("Error fetching quiz:", error);
+            }
+          };
+      
+      if(localStorage.getItem('date') !== "date") {
+            fetchData();
+        }
         //refresh when changing question
         const newAnswerState = {...answersState};
         for(const key in newAnswerState) {
             newAnswerState[key] = false;
         }
         setAnswersState(newAnswerState);
-      
-        fetchData();
       }, [questionNum]);
 
     
@@ -57,27 +63,25 @@ export default function QuizComponent(){
     };
 
     const handleSubmit = () => {
-        console.log('Submit')
-
         //Prepare data of the user answer to be able to post the request to database
-        const userId = JSON.parse(localStorage.getItem('user_info')).id;
-
-        
         const userAnswersInfo = {
-            id_user : userId,
             id_quiz : quiz[questionNum]?.quiz_id,
             id_question : quiz[questionNum]?.question_id,
             id_answer : currentAnswers[findUserAnswer()].answer_id,
         }
+        setUserAnswers(userAnswersInfo)
         QuizService.postQuizAnswer(userAnswersInfo);
+        setQuestionNum(questionNum+1);
+}
 
-        if(questionNum !== quiz.length) {
-            setQuestionNum(questionNum+1);
+    useEffect(()=>{
+        if(questionNum === quiz.length-1) {
+            console.log("last question n°", questionNum);
+            setTextButton('Submit');
         }
-        setTextButton('Submit');
-    }
-    
+    }, [])
 
+    
     const handleAnswerChange = (answerId) => {
         const newAnswerState = {...answersState};
         for(const key in newAnswerState) {
@@ -98,6 +102,7 @@ export default function QuizComponent(){
                 <SendButton text={textButton} onSubmit={handleSubmit}/>
             </>
             : <p>Thank for submitting !</p>
+            // : <> {QuizService.postTookQuiz(userAnswers)} <p>Thank for submitting !</p></>
             }
             
         </AnswersContainer>

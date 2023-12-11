@@ -3,8 +3,6 @@ import Header from '../components/Header.js';
 
 
 export default function Quiz(){
-
-    
     return <>
     <Header/>
     <QuizComponent/>

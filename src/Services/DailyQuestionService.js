@@ -1,15 +1,30 @@
 import Axios from 'axios'
 
 const DailyQuestionService = {
+    getDate : function getDate(){
+        const  currentDate = new Date();
+        const month = currentDate.getMonth() +1;
+        const day = currentDate.getDate()
+        const year = currentDate.getFullYear()
+        const today = day + '/' + month  + '/' + year;
+
+        return today;
+    },
+
     fetchDailyQuestion : async function fetchDailyQuestion(){
         try {
-            const response = await fetch('http://localhost:3001/daily_question');
-            if(!response.ok){
+            const token = localStorage.getItem('token');
+            const response = await Axios.get('http://localhost:3001/daily_question', 
+            {
+                headers: {
+                    'x-access-token': token
+                }
+            });
+            if(response.status !== 200){
                 throw new Error('Failed to fetch daily question');
             }
-            const data = await response.json();
-            console.log("front daily question : ", data[0]);
-            return data[0].question;
+            const data = await response.data;
+            return data;
         }
         catch(err){
             console.error('Error API request : ',err);
@@ -17,12 +32,12 @@ const DailyQuestionService = {
         }
     },
 
-    sendDailyAnswer : function sendDailyAnswer(userAnswer){
+    sendDailyAnswer : function sendDailyAnswer(data){
         const token = localStorage.getItem('token');
         console.log("token : ", token);
         Axios.post("http://localhost:3001/daily_answer", {
-            answer : userAnswer,
-
+            answer : data.answer,
+            id_question : data.id_question
         }, {
             headers: {
             'x-access-token': token
@@ -31,7 +46,6 @@ const DailyQuestionService = {
             if(response.status !== 200) {
                 throw new Error(`Failed to post user answer. Server responded with ${response.status} ${response.statusText}`);
               }else{
-                console.log("2 : ", userAnswer);
                 return response.data;
               }
         }).catch(error => {
@@ -51,6 +65,7 @@ const DailyQuestionService = {
         }, timeUntilMidnight);
       
     },
+
 
     
 }
