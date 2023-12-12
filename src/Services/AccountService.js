@@ -70,8 +70,8 @@ const AccountService = {
         return false;
       } else {
         console.log("USER INFO : ", response.data.result);
-        localStorage.setItem("token", response.data.token);
-        localStorage.setItem("user_info", JSON.stringify(response.data.result));
+        sessionStorage.setItem("token", response.data.token);
+        sessionStorage.setItem("user_info", JSON.stringify(response.data.result));
         return true;
       }
     },
@@ -79,7 +79,7 @@ const AccountService = {
     userAuthentication : function userAuthentication(){
       Axios.get("http://localhost:3001/isUserAuth", {
       headers : {
-        "x-access-token" : localStorage.getItem("token"), 
+        "x-access-token" : sessionStorage.getItem("token"), 
       },
       }).then((response)=>{
         console.log(response)
@@ -87,14 +87,14 @@ const AccountService = {
     },
 
     getUserInfo : function userInfo(){
-      const userInfo = localStorage.getItem('user_info');
+      const userInfo = sessionStorage.getItem('user_info');
       const jsonUserInfo = JSON.parse(userInfo);
       return jsonUserInfo;
     },
 
     logOut : function logOut(navigate){
-      localStorage.removeItem('user_info');
-      localStorage.removeItem('token');
+      sessionStorage.removeItem('user_info');
+      sessionStorage.removeItem('token');
       navigate('/login');
     }
 

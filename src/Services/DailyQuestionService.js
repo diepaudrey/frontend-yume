@@ -13,7 +13,7 @@ const DailyQuestionService = {
 
     fetchDailyQuestion : async function fetchDailyQuestion(){
         try {
-            const token = localStorage.getItem('token');
+            const token = sessionStorage.getItem('token');
             const response = await Axios.get('http://localhost:3001/daily_question', 
             {
                 headers: {
@@ -33,7 +33,7 @@ const DailyQuestionService = {
     },
 
     sendDailyAnswer : function sendDailyAnswer(data){
-        const token = localStorage.getItem('token');
+        const token = sessionStorage.getItem('token');
         console.log("token : ", token);
         Axios.post("http://localhost:3001/daily_answer", {
             answer : data.answer,

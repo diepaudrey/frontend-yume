@@ -3,7 +3,7 @@ import colors from '../colors.js'
 import QuizBox from "./QuizBox.js"
 import AnswerQuiz from "./AnswerQuiz.js"
 import SendButton from "./SendButton.js"
-import {useEffect, useState} from 'react'
+import {useEffect, useState, useMemo} from 'react'
 import QuizService from "../QuizService.js"
 
 
@@ -14,6 +14,7 @@ export default function QuizComponent(){
     //Display Question and anwsers
 
     const [quiz, setQuiz] = useState([]);
+    const [quizId, setQuizId] = useState(-1)
     const [currentQuestion, setCurrentQuestion] = useState('');
     const [currentAnswers, setCurrentAnswers] = useState({});
 
@@ -21,65 +22,72 @@ export default function QuizComponent(){
     const [questionNum, setQuestionNum] = useState(0);
     const [textButton, setTextButton] = useState('Next');
 
-    const [userAnswers, setUserAnswers] = useState({
-        id_quiz : -1,
-        id_question : -1,
-        id_answer : -1,
-    })
+    const [userAnswers, setUserAnswers] = useState({});
 
+    const fetchData = async () => {
+        try {
+          const data = await QuizService.getQuiz();
+          setQuiz(data);
+          setCurrentQuestion(data[questionNum]?.question_text);
+          setCurrentAnswers(data[questionNum]?.answers);
+          setQuizId(data[0].quiz_id);
+          localStorage.setItem('quiz_id', data[0].quiz_id);
+        } catch (error) {
+          console.error("Error fetching quiz:", error);
+        }
+    };
 
     useEffect(() => {
-        const date = QuizService.getDate();
+        fetchData();
+    }, []);
 
-        const fetchData = async () => {
-            try {
-              const data = await QuizService.getQuiz();
-              setQuiz(data);
-              setCurrentQuestion(data[questionNum]?.question_text);
-              setCurrentAnswers(data[questionNum]?.answers);
-            } catch (error) {
-              console.error("Error fetching quiz:", error);
-            }
-          };
-      
-      if(localStorage.getItem('date') !== "date") {
-            fetchData();
-        }
-        //refresh when changing question
+    //Reset the style of selected answer
+    useEffect(() => {
         const newAnswerState = {...answersState};
         for(const key in newAnswerState) {
             newAnswerState[key] = false;
         }
         setAnswersState(newAnswerState);
-      }, [questionNum]);
+    },[questionNum])
 
     
     //User response and send database
-
     const findUserAnswer = () => {
         const userAnswer = Object.keys(answersState).find((key) => answersState[key]);
         const indexAnswer = Object.keys(answersState).indexOf(userAnswer);
         return indexAnswer;
     };
 
-    const handleSubmit = () => {
+    const handleNext = () => {
         //Prepare data of the user answer to be able to post the request to database
-        const userAnswersInfo = {
-            id_quiz : quiz[questionNum]?.quiz_id,
-            id_question : quiz[questionNum]?.question_id,
-            id_answer : currentAnswers[findUserAnswer()].answer_id,
-        }
-        setUserAnswers(userAnswersInfo)
-        QuizService.postQuizAnswer(userAnswersInfo);
+        setUserAnswers((prevInputs) => ({
+            ...prevInputs,
+            [questionNum]: {
+                id_quiz: quiz[questionNum]?.quiz_id,
+                id_question: quiz[questionNum]?.question_id,
+                id_answer: currentAnswers[findUserAnswer()].answer_id,
+            }
+        }));
         setQuestionNum(questionNum+1);
-}
+    };
 
+    useEffect(()=>
+    {
+        if(questionNum === quiz.length && userAnswers.length>0) {
+            console.log("Ca va poster : ", userAnswers);
+            QuizService.postQuizAnswers(userAnswers);
+        }
+    }, [questionNum])
+
+    //Display "submit" 
     useEffect(()=>{
+        setCurrentQuestion(quiz[questionNum]?.question_text);
+        setCurrentAnswers(quiz[questionNum]?.answers);
         if(questionNum === quiz.length-1) {
-            console.log("last question n°", questionNum);
             setTextButton('Submit');
         }
-    }, [])
+        
+    }, [questionNum])
 
     
     const handleAnswerChange = (answerId) => {
@@ -99,10 +107,9 @@ export default function QuizComponent(){
                 <AnswerQuiz answer_text={currentAnswers[1].answer_text} answer_id="a2" isChecked={answersState.a2} onChange={handleAnswerChange}/>
                 <AnswerQuiz answer_text={currentAnswers[2].answer_text} answer_id="a3" isChecked={answersState.a3} onChange={handleAnswerChange}/>
                 <AnswerQuiz answer_text={currentAnswers[3].answer_text} answer_id="a4" isChecked={answersState.a4} onChange={handleAnswerChange}/>
-                <SendButton text={textButton} onSubmit={handleSubmit}/>
+                <SendButton text={textButton} onSubmit={handleNext}/>
             </>
             : <p>Thank for submitting !</p>
-            // : <> {QuizService.postTookQuiz(userAnswers)} <p>Thank for submitting !</p></>
             }
             
         </AnswersContainer>

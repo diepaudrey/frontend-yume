@@ -15,7 +15,9 @@ export default function DailyQuestion(){
     };
     
     const [question, setQuestion] = useState('Daily Question');
-    const [infoQuestion, setInfoQuestion] = useState([])
+    const [infoQuestion, setInfoQuestion] = useState([]);
+
+
     useEffect(() => {
       const date = DailyQuestionService.getDate();
       
@@ -26,13 +28,13 @@ export default function DailyQuestion(){
           if (data) {
             setQuestion(data[0].question);
             setInfoQuestion(data[0]);
-            localStorage.setItem('dailyQuestion', data[0].question);
+            sessionStorage.setItem('daily_question', data[0].question);
           }
         });
       }
       else{
         console.log("same day");
-        setQuestion((localStorage.getItem('dailyQuestion')));
+        setQuestion((sessionStorage.getItem('daily_question')));
       }
     }, []);
 
