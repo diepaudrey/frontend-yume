@@ -66,6 +66,21 @@ const QuizService = {
     }
   },
 
+  getQuizById : async function getQuizById(id){
+    const token = sessionStorage.getItem("token");
+    const response = await Axios.get(`http://localhost:3001/quiz_by_id/${id}`, 
+    {
+      headers : {
+      'x-access-token': token
+    }});
+    if(response.status !== 200) {
+      throw new Error(`Failed to post quiz taken: ${response.status}`)
+      
+    }
+    else{
+      return response.data;
+    }
+  },
 
   reloadPageDaily : function reloadPageDaily(){
     const now = new Date();

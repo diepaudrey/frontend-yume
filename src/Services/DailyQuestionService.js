@@ -34,7 +34,6 @@ const DailyQuestionService = {
 
     sendDailyAnswer : function sendDailyAnswer(data){
         const token = sessionStorage.getItem('token');
-        console.log("token : ", token);
         Axios.post("http://localhost:3001/daily_answer", {
             answer : data.answer,
             id_question : data.id_question

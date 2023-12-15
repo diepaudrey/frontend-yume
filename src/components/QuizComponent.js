@@ -20,6 +20,7 @@ export default function QuizComponent(){
     const [questionNum, setQuestionNum] = useState(0);
     const [textButton, setTextButton] = useState(NEXT_BUTTON_TEXT);
     const [userAnswers, setUserAnswers] = useState({});
+    const [error, setError] = useState(false);
 
     //FUNCTIONS
     const fetchData = async () => {
@@ -28,7 +29,7 @@ export default function QuizComponent(){
           setQuiz(data);
           setCurrentQuestion(data[questionNum]?.question_text);
           setCurrentAnswers(data[questionNum]?.answers);
-          localStorage.setItem('quiz_id', data[0].quiz_id);
+
         } catch (error) {
           console.error("Error fetching quiz:", error);
         }
@@ -42,16 +43,26 @@ export default function QuizComponent(){
     };
 
     const handleNext = () => {
-        //Prepare data of the user answer to be able to post the request to database
-        setUserAnswers((prevInputs) => ({
-            ...prevInputs,
-            [questionNum]: {
-                id_quiz: quiz[questionNum]?.quiz_id,
-                id_question: quiz[questionNum]?.question_id,
-                id_answer: currentAnswers[findUserAnswer()].answer_id,
-            }
-        }));
-        setQuestionNum(questionNum+1);
+        const userIndexAnswer = findUserAnswer();
+        //Check if user selected is not null
+        if(userIndexAnswer == -1){
+            setError(true);
+        }
+        else{
+            //Prepare data of the user answer to be able to post the request to database
+            const {quiz_id, question_id } = quiz[questionNum] || {};
+            console.log("quiz id : ", quiz_id, "question_id :", question_id);
+            setUserAnswers((prevInputs) => ({
+                ...prevInputs,
+                [questionNum]: {
+                    id_quiz: quiz_id,
+                    id_question: question_id,
+                    id_answer: currentAnswers[findUserAnswer()].answer_id,
+                }
+            }));
+            setQuestionNum(questionNum+1);
+        }
+
     };
 
     const handleAnswerChange = (answerId) => {
@@ -65,23 +76,54 @@ export default function QuizComponent(){
 
     //USE EFFECT
 
+    //Handle data fetching
     useEffect(() => {
-        fetchData();
+        const fetchQuizData = async (quizId) => {
+            try {
+                const data = await QuizService.getQuizById(quizId);
+                setQuiz(data);
+                setCurrentQuestion(data[questionNum]?.question_text);
+                setCurrentAnswers(data[questionNum]?.answers);
+            } catch (error) {
+                console.error("Error fetching quiz:", error);
+            }
+        }
+
+
+        const today = QuizService.getDate();
+        if(localStorage.getItem('date') !== today) {
+            fetchData();
+            localStorage.setItem('quiz_id', quiz[0].quiz_id);
+            localStorage.setItem('quiz_answered', false);
+        }
+        else{
+            console.log("same daaaaay");
+            const isQuizAnswered = JSON.parse(localStorage.getItem('quiz_answered'));
+            const quizId = parseInt(localStorage.getItem('quiz_id'))
+            if(JSON.parse(!isQuizAnswered)){
+                //faire la requête avec l'id quiz
+                console.log("go faire la requête", quizId);
+                fetchQuizData(quizId);
+
+                
+            }
+        }
     }, []);
 
-    //Reset the style of selected answer
+    //Reset the style of selected answer and error message
     useEffect(() => {
         const newAnswerState = {...answersState};
         for(const key in newAnswerState) {
             newAnswerState[key] = false;
         }
         setAnswersState(newAnswerState);
+        setError(false);
     },[questionNum])
 
     useEffect(()=>{
         if(questionNum === quiz.length && Object.keys(userAnswers).length>0) {
-            console.log("Ca va poster : ", userAnswers);
             QuizService.postQuizAnswers(userAnswers);
+            localStorage.setItem('quiz_answered', true);
         }
     }, [questionNum])
 
@@ -101,6 +143,7 @@ export default function QuizComponent(){
         <AnswersContainer>
             { currentAnswers!==undefined && questionNum !== quiz.length ? 
             <>
+                {error ? <ErrorMessage>Select an answer</ErrorMessage> : null}
                 <AnswerQuiz answer_text={currentAnswers[0].answer_text} answer_id="a1" isChecked={answersState.a1} onChange={handleAnswerChange}/>
                 <AnswerQuiz answer_text={currentAnswers[1].answer_text} answer_id="a2" isChecked={answersState.a2} onChange={handleAnswerChange}/>
                 <AnswerQuiz answer_text={currentAnswers[2].answer_text} answer_id="a3" isChecked={answersState.a3} onChange={handleAnswerChange}/>
@@ -114,6 +157,14 @@ export default function QuizComponent(){
     </QuizBox>
 
 }
+
+const ErrorMessage = styled.p`
+    color : ${colors.pink};
+    font-size : 0.8em;
+    margin-left : auto;
+    margin-right : auto;
+    margin-bottom: 0;
+`
 
 const AnswersContainer = styled.div`
     width: 100%;
