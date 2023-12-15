@@ -28,13 +28,13 @@ export default function DailyQuestion(){
           if (data) {
             setQuestion(data[0].question);
             setInfoQuestion(data[0]);
-            sessionStorage.setItem('daily_question', data[0].question);
+            localStorage.setItem('daily_question', data[0].question);
           }
         });
       }
       else{
         console.log("same day");
-        setQuestion((sessionStorage.getItem('daily_question')));
+        setQuestion((localStorage.getItem('daily_question')));
       }
     }, []);
 
@@ -46,44 +46,26 @@ export default function DailyQuestion(){
     };
 
 
-    return <Container><QuestionContainer>
+    return (
+    <Container>
+      <QuestionContainer>
         <p> {question} </p>
       </QuestionContainer>
       <AnswerContainer>
         <input type="text" id="DQ-answer" placeholder="type here..." value={inputValue} onChange={handleInputChange}/>
         <Button type="submit" onClick={handleClick}>Send</Button>
       </AnswerContainer>
-      </Container>
+    </Container>)
     
 };
 
 
-
-function reloadPageDaily(){
-  const now = new Date();
-  const midnight = new Date(); 
-  midnight.setHours(24, 0, 0, 0); 
-
-  const timeUntilMidnight = midnight - now;
-
-  setTimeout(() => {
-    window.location.reload(true); 
-  }, timeUntilMidnight);
-
-}
-
-
-
-
-
 const Container = styled.div`
-
+  margin : 1%;
   width : 60vw;
-
   @media screen and (min-width: 768px) and (max-width: 1024px){
     width : 70vw;
   }
-
   @media screen and (max-width : 767px) {
     width : 70vw;
     margin-bottom: 2%;
@@ -91,7 +73,7 @@ const Container = styled.div`
   
 `
 
-const QuestionContainer = styled(Container)`
+const QuestionContainer = styled.div`
   p{
     margin-left : 25px;
     margin-top: 10px;
@@ -128,7 +110,7 @@ const QuestionContainer = styled(Container)`
     
   }
 `
-const AnswerContainer = styled(Container)`
+const AnswerContainer = styled.div`
   input{
     border: none;
     outline : none;

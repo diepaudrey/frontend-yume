@@ -42,7 +42,7 @@ export default function MainSection(){
 const Section = styled.section` 
     margin-top: 2%;
     width: 80vw;
-    height: 70vh;
+    height: auto;
     background-color: ${props => props.backgroundColor || '#FFFBE8'};
     border-radius: 50px;
     box-shadow: 0px 4px 4px 0px #C8CAAA;
@@ -54,13 +54,13 @@ const Section = styled.section`
 
     @media screen and (min-width:768px) and (max-width:1024px) {
         width: 90vw;
-        height: 70vh;
+        height: auto;
         justify-content: center;
     }
 
     @media screen and (max-width:767px) {
         width: 90vw;
-        height: 100vh;
+        height: auto;
         justify-content: flex-start;
         
     }
@@ -93,6 +93,7 @@ const BottomSection = styled.section`
 `
 
 const NavCardSection = styled.section`
+    margin : 1%;
     width: 80%;
     display: flex ;
     flex-direction: row;

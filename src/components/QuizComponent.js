@@ -3,54 +3,37 @@ import colors from '../colors.js'
 import QuizBox from "./QuizBox.js"
 import AnswerQuiz from "./AnswerQuiz.js"
 import SendButton from "./SendButton.js"
-import {useEffect, useState, useMemo} from 'react'
-import QuizService from "../QuizService.js"
-
+import {useEffect, useState} from 'react'
+import QuizService from "../Services/QuizService.js"
 
 
 export default function QuizComponent(){
-    //Selected answer
-    const [answersState, setAnswersState] = useState({a1 : false, a2 : false, a3 : false, a4 : false, a5 : false});
-    //Display Question and anwsers
+    //CONST
+    const NEXT_BUTTON_TEXT = 'Next';
+    const SUBMIT_BUTTON_TEXT = 'Submit';
 
+    //USE STATE
+    const [answersState, setAnswersState] = useState({a1 : false, a2 : false, a3 : false, a4 : false, a5 : false});
     const [quiz, setQuiz] = useState([]);
-    const [quizId, setQuizId] = useState(-1)
     const [currentQuestion, setCurrentQuestion] = useState('');
     const [currentAnswers, setCurrentAnswers] = useState({});
-
-    //To change the question
     const [questionNum, setQuestionNum] = useState(0);
-    const [textButton, setTextButton] = useState('Next');
-
+    const [textButton, setTextButton] = useState(NEXT_BUTTON_TEXT);
     const [userAnswers, setUserAnswers] = useState({});
 
+    //FUNCTIONS
     const fetchData = async () => {
         try {
           const data = await QuizService.getQuiz();
           setQuiz(data);
           setCurrentQuestion(data[questionNum]?.question_text);
           setCurrentAnswers(data[questionNum]?.answers);
-          setQuizId(data[0].quiz_id);
           localStorage.setItem('quiz_id', data[0].quiz_id);
         } catch (error) {
           console.error("Error fetching quiz:", error);
         }
     };
 
-    useEffect(() => {
-        fetchData();
-    }, []);
-
-    //Reset the style of selected answer
-    useEffect(() => {
-        const newAnswerState = {...answersState};
-        for(const key in newAnswerState) {
-            newAnswerState[key] = false;
-        }
-        setAnswersState(newAnswerState);
-    },[questionNum])
-
-    
     //User response and send database
     const findUserAnswer = () => {
         const userAnswer = Object.keys(answersState).find((key) => answersState[key]);
@@ -71,9 +54,32 @@ export default function QuizComponent(){
         setQuestionNum(questionNum+1);
     };
 
-    useEffect(()=>
-    {
-        if(questionNum === quiz.length && userAnswers.length>0) {
+    const handleAnswerChange = (answerId) => {
+        const newAnswerState = {...answersState};
+        for(const key in newAnswerState) {
+            newAnswerState[key] = false;
+        }
+        newAnswerState[answerId] = true;
+        setAnswersState(newAnswerState);
+    }
+
+    //USE EFFECT
+
+    useEffect(() => {
+        fetchData();
+    }, []);
+
+    //Reset the style of selected answer
+    useEffect(() => {
+        const newAnswerState = {...answersState};
+        for(const key in newAnswerState) {
+            newAnswerState[key] = false;
+        }
+        setAnswersState(newAnswerState);
+    },[questionNum])
+
+    useEffect(()=>{
+        if(questionNum === quiz.length && Object.keys(userAnswers).length>0) {
             console.log("Ca va poster : ", userAnswers);
             QuizService.postQuizAnswers(userAnswers);
         }
@@ -84,20 +90,12 @@ export default function QuizComponent(){
         setCurrentQuestion(quiz[questionNum]?.question_text);
         setCurrentAnswers(quiz[questionNum]?.answers);
         if(questionNum === quiz.length-1) {
-            setTextButton('Submit');
+            setTextButton(SUBMIT_BUTTON_TEXT);
         }
-        
     }, [questionNum])
 
     
-    const handleAnswerChange = (answerId) => {
-        const newAnswerState = {...answersState};
-        for(const key in newAnswerState) {
-            newAnswerState[key] = false;
-        }
-        newAnswerState[answerId] = true;
-        setAnswersState(newAnswerState);
-    }
+
 
     return <QuizBox title_props={{title_color:colors.pink, title_text:currentQuestion}} box_props={{box_color:colors.cream}}>
         <AnswersContainer>
@@ -109,7 +107,7 @@ export default function QuizComponent(){
                 <AnswerQuiz answer_text={currentAnswers[3].answer_text} answer_id="a4" isChecked={answersState.a4} onChange={handleAnswerChange}/>
                 <SendButton text={textButton} onSubmit={handleNext}/>
             </>
-            : <p>Thank for submitting !</p>
+            : <p> No more quiz today !</p>
             }
             
         </AnswersContainer>

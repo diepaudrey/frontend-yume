@@ -14,7 +14,11 @@ const QuizService = {
 
   getQuiz : async function getQuiz(){
     try{
-      const response = await Axios.get("http://localhost:3001/quiz")
+      const token = sessionStorage.getItem('token')
+      const response = await Axios.get("http://localhost:3001/quiz",  
+      { headers : {
+        'x-access-token' : token
+      }})
       const quiz = response.data;
       return quiz;
     }catch(error) {
@@ -28,6 +32,7 @@ const QuizService = {
     const answersArray = Object.values(userAnswers)
     const idQuiz = answersArray[0].id_quiz;
 
+    this.postTookQuiz(idQuiz);
 
     for(const answer of answersArray){
       const response = await Axios.post("http://localhost:3001/user_question_answer",answer,{
@@ -42,23 +47,8 @@ const QuizService = {
         console.log("Answer posted !");
       }
     }
-    this.postTookQuiz(idQuiz);
+    
   },
-
-  // postQuizAnswers : async function postAnswers(userInfo){
-  //   const token = sessionStorage.getItem('token');
-  //   const response = await Axios.post("http://localhost:3001/user_question_answer", userInfo,{
-  //     headers: {
-  //     'x-access-token': token
-  //     },
-  //   });
-  //   if(response.status !== 200) {
-  //     throw new Error(`Failed to post answers: ${response.status}`);
-  //   }
-  //   else{
-  //     console.log("Answers posted !");
-  //   }
-  // },
 
   postTookQuiz : async function postTookQuiz(id){
     const token = sessionStorage.getItem("token");

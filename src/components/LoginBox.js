@@ -16,6 +16,8 @@ export default function LoginBox(){
     setIsSignUpPage(!isSignUpPage);
     setText(isSignUpPage ? 'Log in' : 'Sign Up');
   }
+  
+
 
     return <Container>
     <Title>YUME</Title>

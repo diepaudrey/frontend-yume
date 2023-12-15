@@ -16,6 +16,7 @@ export default function Box(props){
 
 
 const Container = styled.div`
+  margin : 1%;
   width: ${props => props.width || 'auto'};
   height: ${props => props.height || 'auto'};
   display : flex;

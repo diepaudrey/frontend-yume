@@ -50,7 +50,6 @@ export default function LoginForm(props){
     
   }
 
-
     return <>
     {error ? <ErrorMessage>Wrong email/password combination</ErrorMessage> : null}
     <Fields>

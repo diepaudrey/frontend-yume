@@ -65,11 +65,9 @@ const AccountService = {
         email: userInfo.email,
         password: userInfo.password
       });
-      console.log(response.data);
       if (!response.data.auth) {
         return false;
       } else {
-        console.log("USER INFO : ", response.data.result);
         sessionStorage.setItem("token", response.data.token);
         sessionStorage.setItem("user_info", JSON.stringify(response.data.result));
         return true;
