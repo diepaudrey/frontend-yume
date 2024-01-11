@@ -1,4 +1,5 @@
 import Axios from 'axios'
+import config from '../config'
 
 
 const AccountService = {
@@ -84,6 +85,21 @@ const AccountService = {
       })
     },
 
+    updateLastLogin : async function updateLastLogin(date){
+      const response = await Axios.post("http://localhost:3001/last_login", {
+        date : date
+      }, { headers : {
+        "x-access-token" : sessionStorage.getItem("token")
+      }})
+      if(response.status !== 200){
+        console.log("account service error")
+        throw new Error(`Failed to post answers: ${response.status}`);
+      }
+      else{
+        console.log("Login date updated !")
+      }
+    },
+
     getUserInfo : function userInfo(){
       const userInfo = sessionStorage.getItem('user_info');
       const jsonUserInfo = JSON.parse(userInfo);
@@ -91,10 +107,21 @@ const AccountService = {
     },
 
     logOut : function logOut(navigate){
+      AccountService.updateLastLogin(AccountService.getDate());
       sessionStorage.removeItem('user_info');
       sessionStorage.removeItem('token');
+      sessionStorage.removeItem('quiz_id');
       navigate('/login');
-    }
+    },
+
+    getDate : function getDate(){
+      const  currentDate = new Date();
+      const month = currentDate.getMonth() +1;
+      const day = currentDate.getDate()
+      const year = currentDate.getFullYear()
+      const today = year + '/' + month + '/' + day
+      return today;
+    },
 
 
 }

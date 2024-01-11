@@ -1,4 +1,5 @@
 import Axios from 'axios'
+import config from '../config'
 
 const QuizService = {
 
@@ -7,24 +8,76 @@ const QuizService = {
     const month = currentDate.getMonth() +1;
     const day = currentDate.getDate()
     const year = currentDate.getFullYear()
-    const today = day + '/' + month  + '/' + year;
-
+    const today = year + '/' + month + '/' + day
     return today;
   },
 
-  getQuiz : async function getQuiz(){
+  getLastLogin : async function getLastLogin(setDate){
+    const response = await Axios.get(`${config.apiUrl}/last_login`, 
+    {headers:{
+      "x-access-token": sessionStorage.getItem('token')
+    }})
+    if(response.status!==200){
+      throw new Error(`Failed to post quiz taken: ${response.status}`)
+    }
+    else{
+      const date = response.data[0].last_login
+      console.log('SERVICES DATE: ' + date);
+      setDate(date)
+    }
+  },
+
+  isNewDay : function isNewDay(date1, date2){
+    if(date1 !== date2){
+      return true;
+    }
+    return false
+  },
+
+  getQuiz : async function getQuiz(setQuiz){
     try{
       const token = sessionStorage.getItem('token')
       const response = await Axios.get("http://localhost:3001/quiz",  
       { headers : {
         'x-access-token' : token
       }})
-      const quiz = response.data;
-      return quiz;
+      setQuiz(response.data);
     }catch(error) {
       console.error("Error fetching quiz question:", error);
       throw error;
     };
+  },
+
+  getQuizById : async function getQuizById(setQuiz, id){
+    const token = sessionStorage.getItem("token");
+    const response = await Axios.get(`http://localhost:3001/quiz_by_id/${id}`, 
+    {
+      headers : {
+      'x-access-token': token
+    }});
+    if(response.status !== 200) {
+      throw new Error(`Failed to post quiz taken: ${response.status}`)
+      
+    }
+    else{
+      setQuiz(response.data);
+    }
+  },
+
+  getDailyQuiz : async function getDailyQuiz(setQuiz){
+    const token = sessionStorage.getItem("token");
+    const response = await Axios.get(`http://localhost:3001/quiz_by_id/`, 
+    {
+      headers : {
+      'x-access-token': token
+    }});
+    if(response.status !== 200) {
+      throw new Error(`Failed to post quiz taken: ${response.status}`)
+      
+    }
+    else{
+      setQuiz(response.data);
+    }
   },
 
   postQuizAnswers : async function postAnswers(userAnswers){
@@ -66,9 +119,9 @@ const QuizService = {
     }
   },
 
-  getQuizById : async function getQuizById(id){
+  isQuizAnswered : async function getQuizById(id){
     const token = sessionStorage.getItem("token");
-    const response = await Axios.get(`http://localhost:3001/quiz_by_id/${id}`, 
+    const response = await Axios.get(`http://localhost:3001/is_quiz_answered/${id}`, 
     {
       headers : {
       'x-access-token': token
@@ -78,9 +131,32 @@ const QuizService = {
       
     }
     else{
-      return response.data;
+      //return true or false
+      return response.data.isAnswered
     }
   },
+
+  fetchQuizAnswers : async function fetchQuizAnswers(setQuizAnswers){
+    try {
+        const token = sessionStorage.getItem('token');
+        const response = await Axios.get('http://localhost:3001/quiz_answers', 
+        {
+            headers: {
+                'x-access-token': token
+            }
+        });
+        if(response.status !== 200){
+            throw new Error('Failed to fetch quiz answers');
+        }
+        const data = await response.data;
+        setQuizAnswers(data)
+        console.log("Quiz answers : ", data)
+    }
+    catch(err){
+        console.error('Error API request : ',err);
+        throw err;
+    }
+},
 
   reloadPageDaily : function reloadPageDaily(){
     const now = new Date();

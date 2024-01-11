@@ -32,6 +32,50 @@ const DailyQuestionService = {
         }
     },
 
+    fetchDailyQuestionById : async function fetchDailyQuestionById(setQuestion, id){
+        try {
+            const token = sessionStorage.getItem('token');
+            const response = await Axios.get(`http://localhost:3001/daily_question/${id}`, 
+            {
+                headers: {
+                    'x-access-token': token
+                }
+            });
+            if(response.status !== 200){
+                throw new Error('Failed to fetch daily question');
+            }
+            const data = await response.data[0];
+            setQuestion(data);
+        }
+        catch(err){
+            console.error('Error API request : ',err);
+            return null;
+        }
+    },
+
+    fetchDailyAnswers : async function fetchDailyAnswers(setDailyAnswers){
+        try {
+            const token = sessionStorage.getItem('token');
+            const response = await Axios.get('http://localhost:3001/daily_answers', 
+            {
+                headers: {
+                    'x-access-token': token
+                }
+            });
+            if(response.status !== 200){
+                throw new Error('Failed to fetch daily answers');
+            }
+            const data = await response.data;
+            setDailyAnswers(data)
+            console.log("Daily answers : ", data)
+        }
+        catch(err){
+            console.error('Error API request : ',err);
+            throw err;
+        }
+    },
+
+
     sendDailyAnswer : function sendDailyAnswer(data){
         const token = sessionStorage.getItem('token');
         Axios.post("http://localhost:3001/daily_answer", {

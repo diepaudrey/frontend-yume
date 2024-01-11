@@ -7,7 +7,7 @@ export default function Box(props){
     const {title_props, box_props} = props;
     const {title_text, title_height, title_color} = title_props;
     const {box_width, box_height, box_color} = box_props;
-    return <Container style={{width:box_width , overflow:'auto', maxHeight:'600px'}}>
+    return <Container style={{overflow:'auto', maxHeight:'600px'}}>
         <TitleBox style={{backgroundColor:title_color, height:title_height}}> <p>{title_text}</p> </TitleBox> 
         <ContentBox style={{backgroundColor:box_color, height:box_height}}> {props.children} </ContentBox>
     </Container>
@@ -23,11 +23,11 @@ const Container = styled.div`
   flex-direction: column;
 
   @media screen and (min-width: 768px) and (max-width: 1024px){
-    width: 30%;
+    width: 80vw;
   }
 
   @media screen and (max-width : 767px) {
-    width: 50%;
+    width: 90vw;
     height: auto;
     margin-top: 5%;
   }

@@ -6,6 +6,7 @@ const colors = {
     light_pink : '#EFC9B4', 
     brown : '#95756A', 
     light_brown : '#CAB8A9',
+    white : '#FFFFFF'
 
 }; 
 

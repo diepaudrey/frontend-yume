@@ -5,43 +5,39 @@ import DailyQuestionService from '../Services/DailyQuestionService'
 
 
 export default function DailyQuestion(){
+  const [infoQuestion, setInfoQuestion] = useState([]);
+  const [inputValue, setInputValue] = useState('');
+
+  useEffect(() => {
+    const date = DailyQuestionService.getDate();
+    if(localStorage.getItem('date') !== date) {
+      console.log("new day")
+      localStorage.setItem('date', date);
+      DailyQuestionService.fetchDailyQuestion().then((data) => {
+        if (data) {
+          setInfoQuestion(data[0]);
+          localStorage.setItem('daily_question', data[0].id);
+        }
+      });
+    }
+    else{
+      console.log("same day");
+      const id = parseInt(localStorage.getItem('daily_question'));
+      DailyQuestionService.fetchDailyQuestionById(setInfoQuestion, id);
+    }
+  }, []);
+
     const handleClick = () => {
       const data = {
-        id_question : infoQuestion.id,
+        id_question : infoQuestion?.id,
         answer : inputValue
       }
       DailyQuestionService.sendDailyAnswer(data);
-      setInputValue('');
+      setInputValue('Answered send');
     };
-    
-    const [question, setQuestion] = useState('Daily Question');
-    const [infoQuestion, setInfoQuestion] = useState([]);
 
-
-    useEffect(() => {
-      const date = DailyQuestionService.getDate();
-      
-      if(localStorage.getItem('date') !== date) {
-        console.log("new day")
-        localStorage.setItem('date', date);
-        DailyQuestionService.fetchDailyQuestion().then((data) => {
-          if (data) {
-            setQuestion(data[0].question);
-            setInfoQuestion(data[0]);
-            localStorage.setItem('daily_question', data[0].question);
-          }
-        });
-      }
-      else{
-        console.log("same day");
-        setQuestion((localStorage.getItem('daily_question')));
-      }
-    }, []);
-
-    const [inputValue, setInputValue] = useState('');
     const handleInputChange = (event) => {
       const value = event.target.value;
-      console.log(value);
       setInputValue(value);
     };
 
@@ -49,7 +45,7 @@ export default function DailyQuestion(){
     return (
     <Container>
       <QuestionContainer>
-        <p> {question} </p>
+        <p> {infoQuestion?.question} </p>
       </QuestionContainer>
       <AnswerContainer>
         <input type="text" id="DQ-answer" placeholder="type here..." value={inputValue} onChange={handleInputChange}/>
