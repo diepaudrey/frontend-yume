@@ -1,9 +1,39 @@
 import styled from 'styled-components'
 import colors from '../colors.js'
 import InformationComponent from './InformationComponent.js';
+import AccountService from '../Services/AccountService.js';
+import {useEffect, useState} from 'react'
 
 export default function ProfileCard(props){
     const {img, lastName, firstName, email} = props;
+    const [isEditing, setIsEditing] = useState(false)
+    const [infoContent, setInfoContent] = useState('');
+    const [infoText, setInfoText] = useState('')
+
+    useEffect(() => {
+        AccountService.fetchUserDescription(setInfoText)
+    }, [])
+
+    useEffect(() => {
+        if(infoText !== ''){
+            AccountService.setUserDescription(infoText);
+        }
+    }, [infoText])
+
+    const handleModifyClick = () => {
+        setIsEditing(true);
+    }
+
+    const handleSaveClick = () => {
+        setIsEditing(false);
+        setInfoText(infoContent);
+        
+    }
+
+    const handleCancelClick = () => {
+        setIsEditing(false);
+    }
+
     return <Card> 
         <TopInformation> 
             <img src={img} alt="Yourself"/>
@@ -14,8 +44,22 @@ export default function ProfileCard(props){
             </ProfileInfo>
         </TopInformation>
         <BottomInformation>
-            <OtherInfo/>
-            <ModifyButton> Modify </ModifyButton>
+            {isEditing ? 
+                <>
+                    <textarea value={infoContent} onChange={(e)=>setInfoContent(e.target.value)}></textarea>
+                    <ModifyButton onClick={handleSaveClick}> Save</ModifyButton>
+                    <ModifyButton onClick={handleCancelClick}> Cancel</ModifyButton>
+                </>
+                : 
+                <>
+                    <OtherInfo>
+                        <p>{infoText}</p>
+                    </OtherInfo>
+                    <ModifyButton onClick={handleModifyClick}> Modify </ModifyButton>
+                </>
+            }
+            
+            
         </BottomInformation>
 
     </Card>
@@ -93,7 +137,6 @@ const ProfileInfo = styled.div`
         justify-content: space-between;
         align-items: center;
     }
-    
 `
 
 const BottomInformation = styled.div`
@@ -119,7 +162,10 @@ const OtherInfo = styled.div`
     border-radius: 25px 25px 25px 25px;
     margin-top: 2%;
     margin-bottom: 2%;
-
+    color : ${colors.brown};
+    p{
+        margin-left: 2%;
+    }
     @media screen and (min-width: 768px) and (max-width: 1024px) {
         width: 55vw;
         height: 20vh;

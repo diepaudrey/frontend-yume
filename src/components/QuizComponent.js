@@ -52,7 +52,7 @@
                 console.log("Pas de quiz dans quiz : ", quiz.length)
             }
             
-        }, [lastLog]);
+        }, []);
 
         
         useEffect(() => {

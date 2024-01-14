@@ -114,6 +114,41 @@ const AccountService = {
       navigate('/login');
     },
 
+    setUserDescription : function sendUserDescription(text){
+      console.log("Le texte à envoyer c'est : ", text);
+      Axios.post("http://localhost:3001/user_description", {
+        description : text
+      },{headers : {"x-access-token" : sessionStorage.getItem("token"), }}).then((response) => {
+        if(response.status !== 200) {
+          throw new Error(`Failed to update user description. Server responded with ${response.status} ${response.statusText}`);
+        }else{
+          console.log("User description updated")
+        }
+      })
+    },
+
+    fetchUserDescription : async function fetchUserDescription(setInfoContent){
+      try {
+        const token = sessionStorage.getItem('token');
+        const response = await Axios.get('http://localhost:3001/user_description', 
+        {
+            headers: {
+                'x-access-token': token
+            }
+        });
+        if(response.status !== 200){
+            throw new Error('Failed to fetch quiz answers');
+        }
+        const data = await response.data;
+        setInfoContent(data[0].description)
+        console.log("info : ", data[0].description)
+      }
+      catch(err){
+          console.error('Error API request : ',err);
+          throw err;
+      }
+    },
+
     getDate : function getDate(){
       const  currentDate = new Date();
       const month = currentDate.getMonth() +1;
@@ -122,6 +157,8 @@ const AccountService = {
       const today = year + '/' + month + '/' + day
       return today;
     },
+
+
 
 
 }
