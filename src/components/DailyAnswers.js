@@ -14,13 +14,16 @@ export default function DailyAnswers() {
     }, [])
 
     return (
-    <BoxOverview title_props={{title_color:colors.pink, title_text:"Daily answers"}} box_props={{box_color:colors.white, box_width: "40vw"}}>
-        {dailyAnswers.map((object, index) =>
+    <BoxOverview title_props={{title_color:colors.pink, title_text:"Daily answers"}} box_props={{box_color:colors.white, box_width: "40vw", box_height: "10vh"}}>
+        {dailyAnswers.length > 0 ?
+            dailyAnswers.map((object, index) =>
             <Container key={index}>
                 <p>Q.{index+1}. {object.question}</p>
                 <p> - {object.answer}</p>
             </Container>
-        )}
+        ) : 
+            <p>No daily answers available</p>}
+
         
     </BoxOverview>
     )
