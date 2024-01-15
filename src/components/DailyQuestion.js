@@ -11,7 +11,7 @@ export default function DailyQuestion(){
   useEffect(() => {
     const date = DailyQuestionService.getDate();
     if(localStorage.getItem('date') !== date) {
-      console.log("new day")
+      // console.log("new day")
       localStorage.setItem('date', date);
       DailyQuestionService.fetchDailyQuestion().then((data) => {
         if (data) {
@@ -21,7 +21,7 @@ export default function DailyQuestion(){
       });
     }
     else{
-      console.log("same day");
+      // console.log("same day");
       const id = parseInt(localStorage.getItem('daily_question'));
       DailyQuestionService.fetchDailyQuestionById(setInfoQuestion, id);
     }

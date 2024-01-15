@@ -152,9 +152,10 @@ const AccountService = {
     getDate : function getDate(){
       const  currentDate = new Date();
       const month = currentDate.getMonth() +1;
+      const monthFormatted = month < 10 ? '0' + month : month;
       const day = currentDate.getDate()
       const year = currentDate.getFullYear()
-      const today = year + '/' + month + '/' + day
+      const today = year + '/' + monthFormatted + '/' + day
       return today;
     },
 

@@ -6,32 +6,27 @@ const QuizService = {
   getDate : function getDate(){
     const  currentDate = new Date();
     const month = currentDate.getMonth() +1;
+    const monthFormatted = month < 10 ? '0' + month : month;
     const day = currentDate.getDate()
     const year = currentDate.getFullYear()
-    const today = year + '/' + month + '/' + day
+    const today = year + '/' + monthFormatted + '/' + day
     return today;
   },
 
   getLastLogin : async function getLastLogin(setDate){
-    const response = await Axios.get(`${config.apiUrl}/last_login`, 
-    {headers:{
-      "x-access-token": sessionStorage.getItem('token')
-    }})
-    if(response.status!==200){
-      throw new Error(`Failed to post quiz taken: ${response.status}`)
-    }
-    else{
-      const date = response.data[0].last_login
-      console.log('SERVICES DATE: ' + date);
-      setDate(date)
-    }
-  },
+    try{
+      const response = await Axios.get(`${config.apiUrl}/last_login`, 
+      {headers:{
+        "x-access-token": sessionStorage.getItem('token')
+      }})
 
-  isNewDay : function isNewDay(date1, date2){
-    if(date1 !== date2){
-      return true;
+        const date = response.data[0].last_login
+        setDate(date)
+    } catch(error){
+        console.error("Failed to post quiz taken:", error);
+        throw error;
     }
-    return false
+
   },
 
   getQuiz : async function getQuiz(setQuiz){
@@ -47,6 +42,7 @@ const QuizService = {
       throw error;
     };
   },
+
 
   getQuizById : async function getQuizById(setQuiz, id){
     const token = sessionStorage.getItem("token");
@@ -66,7 +62,7 @@ const QuizService = {
 
   getDailyQuiz : async function getDailyQuiz(setQuiz){
     const token = sessionStorage.getItem("token");
-    const response = await Axios.get(`http://localhost:3001/quiz_by_id/`, 
+    const response = await Axios.get(`http://localhost:3001/daily_quiz/`, 
     {
       headers : {
       'x-access-token': token
@@ -76,7 +72,16 @@ const QuizService = {
       
     }
     else{
-      setQuiz(response.data);
+      this.isQuizAnswered(response.data[0].quiz_id).then((result) => 
+      {
+        if(!result){
+          setQuiz(response.data);
+        }
+        else{
+          setQuiz('')
+        }
+      });
+      
     }
   },
 

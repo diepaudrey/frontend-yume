@@ -5,6 +5,7 @@
     import SendButton from "./SendButton.js"
     import {useEffect, useState} from 'react'
     import QuizService from "../Services/QuizService.js"
+    import AccountService from "../Services/AccountService.js"
 
 
     export default function QuizComponent(){
@@ -21,38 +22,110 @@
         const [textButton, setTextButton] = useState(NEXT_BUTTON_TEXT);
         const [userAnswers, setUserAnswers] = useState({});
         const [error, setError] = useState(false);
-        const [lastLog, setLastLog] = useState('Date')
+        const [lastLog, setLastLog] = useState('Date');
+        const today = QuizService.getDate();
 
         //FUNCTIONS
+        //Set Last Login Date
         useEffect(() => {
-            QuizService.getLastLogin(setLastLog);
+            const fetchData = async () => {
+                await QuizService.getLastLogin(setLastLog);
+            };
+            fetchData();
         }, []);
 
-        //Set all the data for the quiz at beginning
-        useEffect(() => {
-            const today = QuizService.getDate();
-            if(lastLog !== today) {
-                console.log("new day : ")
-                QuizService.getQuiz(setQuiz);
+        //Get Quiz if New Day
+        useEffect(()=>{
+            const fetchQuiz = async () => {
+                await QuizService.getQuiz(setQuiz);
+            }
+
+            const fetchDailyQuiz = async () => {
+                await QuizService.getDailyQuiz(setQuiz);
+            }
+            //New day
+            if(lastLog !== today && lastLog !== 'Date'){
+                console.log("new daayyy");
+                fetchQuiz();
+            }
+            //Same day
+            else if(lastLog === today){
+                console.log("same daaay")
+                fetchDailyQuiz();
+            }
+        }, [lastLog])
+
+        //Update Login Date
+
+        useEffect(()=>{
+            const updateLoginDate = async () => {
+                AccountService.updateLastLogin(today)
                 setLastLog(today);
             }
-            else if(quiz.length > 0){
-                console.log("same day : ", quiz)
-                setCurrentQuestion(quiz[questionNum]?.question_text);
-                setCurrentAnswers(quiz[questionNum]?.answers);
-                sessionStorage.setItem('quiz_id', quiz[0].quiz_id);
+            updateLoginDate();
+        },[])
 
-                const isQuizAnswered = QuizService.isQuizAnswered(quiz[0].quiz_id);
-                if(JSON.parse(!isQuizAnswered)){
-                    const quizId = parseInt(sessionStorage.getItem('quiz_id'))
-                    QuizService.getQuizById(setQuiz, quizId)
-                }
-            }
-            else{
-                console.log("Pas de quiz dans quiz : ", quiz.length)
-            }
+        //Set quiz if new day
+        // useEffect(()=>{
+        //     if(quiz.length > 0 && sessionStorage.getItem('quiz_id')===null){
+        //         console.log("new day : ");
+        //         setCurrentQuestion(quiz[questionNum]?.question_text);
+        //         setCurrentAnswers(quiz[questionNum]?.answers);
+        //         sessionStorage.setItem('quiz_id', quiz[0].quiz_id);
+        //     }
+        //     else if(quiz.length === 0){
+        //         console.log("same day : ");
+        //         const quizId = parseInt(sessionStorage.getItem('quiz_id'));
+        //         QuizService.getQuizById(setQuiz, quizId);
+        //         //const isQuizAnswered = QuizService.isQuizAnswered(quiz[0].quiz_id);
+        //         // if (!JSON.parse(isQuizAnswered)) {
+        //         //     const quizId = parseInt(sessionStorage.getItem('quiz_id'));
+        //         //     QuizService.getQuizById(setQuiz, quizId);
+        //         // }
+        //     }
+        // }, [quiz])
+
+        //Set quiz from session storage (same day)
+        // useEffect(()=>{
+        //     if(lastLog === today){
+        //         console.log("same day : ");
+        //         const quizId = parseInt(sessionStorage.getItem('quiz_id'));
+        //         QuizService.getQuizById(setQuiz, quizId);
+        //         //const isQuizAnswered = QuizService.isQuizAnswered(quiz[0].quiz_id);
+        //         // if (!JSON.parse(isQuizAnswered)) {
+        //         //     const quizId = parseInt(sessionStorage.getItem('quiz_id'));
+        //         //     QuizService.getQuizById(setQuiz, quizId);
+        //         // }
+        //     }
+        // },[quiz])
+
+        //Set all the data for the quiz at beginning
+        // useEffect(() => {
+        //     const today = QuizService.getDate();
+        //     console.log("lastLog = ", lastLog, "today = ", today, lastLog===today);
+        //     if(lastLog !== today) {
+        //         console.log("new day : ")
+        //         QuizService.getQuiz(setQuiz);
+        //         AccountService.updateLastLogin(today)
+        //         // setLastLog(today);
+        //     }
+        //     else if(quiz.length > 0){
+        //         console.log("same day : ", quiz)
+        //         setCurrentQuestion(quiz[questionNum]?.question_text);
+        //         setCurrentAnswers(quiz[questionNum]?.answers);
+        //         sessionStorage.setItem('quiz_id', quiz[0].quiz_id);
+
+        //         const isQuizAnswered = QuizService.isQuizAnswered(quiz[0].quiz_id);
+        //         if(JSON.parse(!isQuizAnswered)){
+        //             const quizId = parseInt(sessionStorage.getItem('quiz_id'))
+        //             QuizService.getQuizById(setQuiz, quizId)
+        //         }
+        //     }
+        //     else{
+        //         console.log("Pas de quiz dans quiz : ", quiz.length)
+        //     }
             
-        }, []);
+        // }, []);
 
         
         useEffect(() => {
@@ -69,6 +142,7 @@
                 QuizService.postQuizAnswers(userAnswers);
                 setCurrentQuestion('')
                 setQuiz([])
+                // sessionStorage.removeItem('quiz_id')
                 return;
             }
 
@@ -96,7 +170,7 @@
             }
             else{
                 //Prepare data of the user answer to be able to post the request to database
-                const {quiz_id, question_id } = quiz[questionNum] || {};
+                const {quiz_id, question_id} = quiz[questionNum] || {};
                 console.log("quiz id : ", quiz_id, "question_id :", question_id);
                 setUserAnswers((prevInputs) => ({
                     ...prevInputs,
